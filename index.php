@@ -23,16 +23,27 @@
                 <!-- First Blog Post -->
                 <?php 
                     $query = "SELECT * FROM posts";
-                    $postRead = mysqli_query($connection, $query);
+                    $UsedQuery = $query;
 
-                    while ($row = mysqli_fetch_assoc($postRead)) {
-                        $post_title = $row["post_title"];
-                        $post_author = $row["post_author"];
-                        $post_date = $row["post_date"];
-                        $post_img = $row["post_image"];
-                        $post_content = $row["post_content"];
+                    if (isset($_POST["submit"])) {
+                        $search = $_POST['search'];
+                        $Squery = "SELECT * FROM posts WHERE post_tags LIKE '%$search%'";
+                        $UsedQuery = $Squery;
+                    }
 
-                        echo "
+                    $postRead = mysqli_query($connection, $UsedQuery);
+                    $count = mysqli_num_rows($postRead);
+                    if ($count == 0) {
+                        echo "<h1>Can't Find Posts</h1>";
+                    } else {
+                        while ($row = mysqli_fetch_assoc($postRead)) {
+                            $post_title = $row["post_title"];
+                            $post_author = $row["post_author"];
+                            $post_date = $row["post_date"];
+                            $post_img = $row["post_image"];
+                            $post_content = $row["post_content"];
+
+                            echo "
                             <h2>
                                 <a href='#'>{$post_title}</a>
                             </h2>
@@ -45,8 +56,8 @@
                             <hr>
                             <p>{$post_content}</p>
                             <a class='btn btn-primary' href='#'> Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
-                            <hr> 
-                        ";
+                            <hr> ";
+                        }
                     }
                 ?>
             </div>
