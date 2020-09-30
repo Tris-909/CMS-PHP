@@ -25,7 +25,20 @@
         post_id='{$post_id}'
         ";
 
+        if (empty( $post_image) ) {
+            $Edit_Query = "UPDATE posts SET 
+            post_title='{$post_title}',
+            post_category_id='{$post_category_id}', 
+            post_author='{$post_author}',
+            post_status='{$post_status}',
+            post_tags='{$post_tags}',
+            post_content='{$post_content}' WHERE
+            post_id='{$post_id}'
+            ";
+        }
+
         mysqli_query($connection, $Edit_Query);
+        header("Location: ./index.php?source=view_all_posts"); //Reload the page to see changes
     }
 ?>
 
@@ -40,7 +53,7 @@
             $post_title = $row['post_title'];
             $post_category_id = $row['post_category_id'];
             $post_author = $row['post_author'];
-            $post_status = $row['post_author'];
+            $post_status = $row['post_status'];
             $post_image = $row['post_image'];
             $post_tags = $row['post_tags'];
             $post_content = $row['post_content'];
@@ -88,14 +101,25 @@
 
     <div class="form_group">
         <label for="title">Post Status : </label>
-        <input type="text" class="form-control" name="post_status" value="<?php echo $post_status; ?>">
+        <select name="post_status">
+            <?php 
+            $isValid = ($post_status == 'draft');
+            if ($isValid == 1) {
+                echo "<option value='draft' selected>draft</option>";
+                echo "<option value='public'>public</option>";
+            } else {
+                echo "<option value='draft'>draft</option>";
+                echo "<option value='public' selected>public</option>";
+            }
+            ?>
+        </select>
     </div>
     <br>
 
     <img src="<?php echo $post_image; ?>" width=300 height=200 alt="img" >
     <div class="form_group">
         <label for="title">Choose New Post Image : </label>
-        <input type="file" name="image">
+        <input type="file" name="image" >
     </div>
     <br>
 

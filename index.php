@@ -16,13 +16,13 @@
             <div class="col-md-8">
 
                 <h1 class="page-header">
-                    Page Heading
-                    <small>Secondary Text</small>
+                    Welcome back 
+                    <small>We miss you</small>
                 </h1>
 
                 <!-- First Blog Post -->
                 <?php 
-                    $query = "SELECT * FROM posts";
+                    $query = "SELECT * FROM posts WHERE post_status='public'";
                     $UsedQuery = $query;
 
                     if (isset($_POST["submit"])) {

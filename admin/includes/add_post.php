@@ -11,7 +11,7 @@
         $post_content = $_POST['post_content'];
         $post_tags = $_POST['post_tags'];
         $post_status = $_POST['post_status'];
-        $post_comment_count = 1;
+        $post_comment_count = 0;
         
 
         move_uploaded_file($post_image_temp, "./images/$post_image");
