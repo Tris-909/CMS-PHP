@@ -138,7 +138,25 @@
                             '{$comment_status}',
                             now())";
 
+                        //Increate comment_count by 1 code below :
+                        $Get_Current_Count_Query = "SELECT post_id, post_comment_count FROM posts WHERE post_id=$comment_post_id";
+                        $GetCountResult = mysqli_query($connection, $Get_Current_Count_Query);
+                        checkQueryError($GetCountResult);
+                        while ($thisCount = mysqli_fetch_assoc($GetCountResult)) {
+                            $postID = $thisCount['post_id'];
+                            $currentCount = $thisCount['post_comment_count'];
+                            $newCount = $currentCount + 1; 
+
+                            $Update_New_Count_Query = "UPDATE posts SET post_comment_count=$newCount WHERE post_id=$postID";
+                            $UpdateResult = mysqli_query($connection, $Update_New_Count_Query);
+                            checkQueryError($UpdateResult);
+                        } 
+
+
                         $AddCommentResult = mysqli_query($connection, $Add_Comment_Query);
+
+
+
                         checkQueryError($AddCommentResult);
                     }
 
