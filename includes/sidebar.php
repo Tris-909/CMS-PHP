@@ -24,7 +24,7 @@
                         <div class="col-lg-12">
                             <ul class="list-unstyled">
                                 <?php 
-                                    $CategoryQuery = "SELECT * FROM categories LIMIT 4";
+                                    $CategoryQuery = "SELECT * FROM categories";
                                     $result = mysqli_query($connection, $CategoryQuery);
 
                                     while ($row = mysqli_fetch_assoc($result)) {
