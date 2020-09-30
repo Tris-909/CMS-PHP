@@ -13,9 +13,8 @@
         $post_status = $_POST['post_status'];
         $post_comment_count = 1;
         
-        define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
-        move_uploaded_file($post_image_temp, "C:/Users/USER/Desktop/CMS/CMS_TEMPLATE/admin/images/$post_image");
+        move_uploaded_file($post_image_temp, "./images/$post_image");
     
         $Add_post_query = "INSERT INTO posts 
         (post_category_id, 
@@ -43,7 +42,9 @@
         checkQueryError($create_post_query);
     }
 ?>
-
+<h1 class="page-header">
+    Add A Post
+</h1>
 <form action="" method="POST" enctype="multipart/form-data">
     <div class="form_group">
         <label for="title">Post Title : </label>

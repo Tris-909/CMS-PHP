@@ -1,58 +1,49 @@
 <h1 class="page-header">
-    View All Posts
+    View Comments 
 </h1>
+
 <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>Post_Id</th>
                                         <th>Author</th>
-                                        <th>Title</th>
-                                        <th>Category</th>
+                                        <th>Email</th>
+                                        <th>Content</th>
                                         <th>Status</th>
-                                        <th>Image</th>
-                                        <th>Tags</th>
-                                        <th>Comments</th>
                                         <th>Date</th>
+                                        <th>Approve</th>
+                                        <th>UnApprove</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        $query = "SELECT * FROM posts";
+                                        $query = "SELECT * FROM comments";
                                         $result = mysqli_query($connection, $query);
 
                                         while($row = mysqli_fetch_assoc($result)) {
-                                            $ID = $row["post_id"];
-                                            $Author = $row["post_author"];
-                                            $Title = $row["post_title"];
-                                            $Category = $row["post_category_id"];
-
-                                            // Get string Title and display it instead of displaying category_id 
-                                            $Get_Dynamic_Category_Title = "SELECT * FROM categories WHERE cat_id=$Category";
-                                            $Dynamic_Category_Title = mysqli_query($connection, $Get_Dynamic_Category_Title);
-                                            while ($caterResult = mysqli_fetch_assoc($Dynamic_Category_Title)) {
-                                                $Dynamic_Title = $caterResult['cat_title'];
-                                            }
-
-                                            $Status = $row["post_status"];
-                                            $Image = $row["post_image"];
-                                            $Tags = $row["post_tags"];
-                                            $Comments = $row["post_comment_count"];
-                                            $Date = $row["post_date"];
+                                            $ID = $row["comment_id"];
+                                            $Post_ID = $row["comment_post_id"];
+                                            $Author = $row["comment_author"];
+                                            $Email = $row["comment_email"];
+                                            $Content = $row["comment_content"];
+                                            $Status = $row["comment_status"];
+                                            $Date = $row["comment_date"];
 
                                             echo "
                                             <tr>
                                                 <td> $ID </td>
+                                                <td> $Post_ID </td>
                                                 <td> $Author </td>
-                                                <td> $Title </td>
-                                                <td>  $Dynamic_Title </td>
+                                                <td>  $Email </td>
+                                                <td> $Content </td>
                                                 <td> $Status </td>
-                                                <td> <img class='img-responsive' width='100' src='$Image' alt='Image'> </td>
-                                                <td> $Tags </td>
-                                                <td> $Comments </td>
                                                 <td> $Date </td>
-                                                <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
+                                                <td> <a href='index.php?source=approve_comment&approve={$ID}'> Approve </a> </td>
+                                                <td> <a href='index.php?source=unapprove_comment&unapprove={$ID}'> UnApprove </a> </td>
+                                                <td> <a href='index.php?source=edit_comment&edit={$ID}'> Edit </a> </td>
                                                 <td> <a href='index.php?delete={$ID}'> Delete </a> </td>
                                             </tr>
                                             ";

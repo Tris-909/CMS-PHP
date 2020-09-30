@@ -45,7 +45,7 @@
                                 $post_author = $row["post_author"];
                                 $post_date = $row["post_date"];
                                 $post_img = $row["post_image"];
-                                $post_content = $row["post_content"];
+                                $post_content = substr($row["post_content"],0 ,100);
     
                                 echo "
                                 <h2>
@@ -58,7 +58,7 @@
                                 <hr>
                                 <img class='img-responsive' src='./admin/{$post_img}' alt=''>
                                 <hr>
-                                <p>{$post_content}</p>
+                                <p>{$post_content}...</p>
                                 <a class='btn btn-primary' href='#'> Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
                                 <hr> ";
                             }

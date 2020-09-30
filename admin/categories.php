@@ -14,8 +14,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Welcome to Admin
-                            <small>Author</small>
+                            Categories Management
                         </h1>
 
                         <div class="col-xs-6">

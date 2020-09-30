@@ -14,11 +14,6 @@
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Welcome to Admin
-                            <small>Author</small>
-                        </h1>
-
                         <?php 
                             if(isset($_GET["source"])) {
                                 $source =  $_GET["source"];
@@ -32,6 +27,12 @@
                                     break;
                                 case 'edit_post':
                                     include './includes/edit_post.php';
+                                    break;
+                                case 'view_comments':
+                                    include './includes/comments.php';
+                                    break;
+                                case 'add_comment':
+                                    include './includes/add_comment.php';
                                     break;
                                 default: 
                                     include "./includes/view_all_posts.php";

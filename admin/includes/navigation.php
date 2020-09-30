@@ -11,7 +11,7 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                <li><a href="http://localhost:8888/">HOME SITE</a></li>
+                <li><a href="/index.php">HOME SITE</a></li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
@@ -32,7 +32,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="/admin/index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     
                     <li>
@@ -49,8 +49,20 @@
                     <li>
                         <a href="http://localhost:8888/admin/categories.php"><i class="fa fa-fw fa-wrench"></i> Categories </a>
                     </li>
-                    <li class="active">
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Comments </a>
+                    <!-- <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#comment"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="comment" class="collapse">
+                            <li>
+                                <a href="index.php?source=view_comments">View All Comments</a>
+                            </li>
+                            <li>
+                                <a href="index.php?source=add_post">Add A Comment</a>
+                            </li>
+                        </ul>
+                    </li> -->
+   
+                    <li>
+                        <a href="index.php?source=view_comments"><i class="fa fa-fw fa-file"></i> Comments </a>
                     </li>
 
                     <li>

@@ -12,10 +12,8 @@
         $post_tags = $_POST['post_tags'];
         $post_content = $_POST['post_content'];
 
-        define ('SITE_ROOT', realpath(dirname(__FILE__)));
-
-        move_uploaded_file($post_image_temp, "C:/Users/USER/Desktop/CMS/CMS_TEMPLATE/admin/images/$post_image");
-
+        move_uploaded_file($post_image_temp, "./images/$post_image");
+        
         $Edit_Query = "UPDATE posts SET 
         post_title='{$post_title}',
         post_category_id='{$post_category_id}', 
