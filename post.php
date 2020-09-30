@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="index.php">Start Bootstrap</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -61,43 +61,57 @@
     </nav>
 
     <!-- Page Content -->
-    <div class="container">
-
+    <div class="container"> 
         <div class="row">
 
             <!-- Blog Post Content Column -->
             <div class="col-lg-8">
+            <?php 
+            include('./includes/db.php');
+            if (isset($_GET['id'])) {
+                $post_ID = $_GET['id'];
+                $Read_Post_Query = "SELECT * FROM posts WHERE post_id=$post_ID";
 
-                <!-- Blog Post -->
+                $Read_Result = mysqli_query($connection, $Read_Post_Query);
+                while ($post = mysqli_fetch_assoc($Read_Result)) {
+                    $post_title = $post['post_title'];
+                    $post_author = $post['post_author'];
+                    $post_date = $post['post_date'];
+                    $post_content = $post['post_content'];
+                    $post_image = $post['post_image'];
 
-                <!-- Title -->
-                <h1>Blog Post Title</h1>
+                    echo "
+                        <!-- Blog Post -->
 
-                <!-- Author -->
-                <p class="lead">
-                    by <a href="#">Start Bootstrap</a>
-                </p>
+                        <!-- Title -->
+                        <h1>$post_title</h1>
 
-                <hr>
+                        <!-- Author -->
+                        <p class='lead'>
+                            by <a href='#'>$post_author</a>
+                        </p>
 
-                <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Posted on August 24, 2013 at 9:00 PM</p>
+                        <hr>
 
-                <hr>
+                        <!-- Date/Time -->
+                        <p><span class='glyphicon glyphicon-time'></span> Posted on $post_date</p>
 
-                <!-- Preview Image -->
-                <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+                        <hr>
 
-                <hr>
+                        <!-- Preview Image -->
+                        <img class='img-responsive' src='./admin/$post_image' alt=''>
 
-                <!-- Post Content -->
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+                        <hr>
 
-                <hr>
+                        <!-- Post Content -->
+                        <p class='lead'> $post_content </p>
+                        <hr>
+                    ";
+                }
+
+            }
+            ?>
+                
 
                 <!-- Blog Comments -->
 

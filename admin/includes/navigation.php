@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">CMS Admin</a>
+                <a class="navbar-brand" href="./index.php">CMS Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -39,15 +39,15 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#post"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="post" class="collapse">
                             <li>
-                                <a href="#">View All Posts</a>
+                                <a href="index.php">View All Posts</a>
                             </li>
                             <li>
-                                <a href="#">Add Posts</a>
+                                <a href="index.php?source=add_post">Add Posts</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Categories </a>
+                        <a href="http://localhost:8888/admin/categories.php"><i class="fa fa-fw fa-wrench"></i> Categories </a>
                     </li>
                     <li class="active">
                         <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Comments </a>
