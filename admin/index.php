@@ -1,6 +1,7 @@
 <?php 
     include('./includes/header.php');
     include('./functions.php');
+    include('../includes/db.php');
 ?>
 
     <div id="wrapper">

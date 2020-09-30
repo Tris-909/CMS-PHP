@@ -6,7 +6,7 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Post_Id</th>
+                                        <th>Belong to Post</th>
                                         <th>Author</th>
                                         <th>Email</th>
                                         <th>Content</th>
@@ -32,33 +32,62 @@
                                             $Status = $row["comment_status"];
                                             $Date = $row["comment_date"];
 
-                                            echo "
-                                            <tr>
-                                                <td> $ID </td>
-                                                <td> $Post_ID </td>
-                                                <td> $Author </td>
-                                                <td>  $Email </td>
-                                                <td> $Content </td>
-                                                <td> $Status </td>
-                                                <td> $Date </td>
-                                                <td> <a href='index.php?source=approve_comment&approve={$ID}'> Approve </a> </td>
-                                                <td> <a href='index.php?source=unapprove_comment&unapprove={$ID}'> UnApprove </a> </td>
-                                                <td> <a href='index.php?source=edit_comment&edit={$ID}'> Edit </a> </td>
-                                                <td> <a href='index.php?delete={$ID}'> Delete </a> </td>
-                                            </tr>
-                                            ";
+                                            $Find_Post_Title_Query = "SELECT post_id, post_title FROM posts WHERE post_id=$Post_ID";
+                                            $FindPostTitleResult = mysqli_query($connection, $Find_Post_Title_Query);
+
+                                            while ($RelatedPost = mysqli_fetch_assoc($FindPostTitleResult)) {
+                                                $post_id = $RelatedPost['post_id'];
+                                                $post_title = $RelatedPost['post_title'];
+
+                                                echo "
+                                                <tr>
+                                                    <td> $ID </td>
+                                                    <td> <a href='../../post.php?id={$post_id}'> $post_title </a> </td>
+                                                    <td> $Author </td>
+                                                    <td>  $Email </td>
+                                                    <td> $Content </td>
+                                                    <td> $Status </td>
+                                                    <td> $Date </td>
+                                                    <td> <a href='./index.php?source=view_comments&approve={$ID}'> Approve </a> </td>
+                                                    <td> <a href='./index.php?source=view_comments&unapprove={$ID}'> UnApprove </a> </td>
+                                                    <td> <a href='../../post.php?source=edit_comment&edit={$ID}'> Edit </a> </td>
+                                                    <td> <a href='./index.php?source=view_comments&delete={$ID}'> Delete </a> </td>
+                                                </tr>
+                                                ";
+                                            } 
                                         }
-                                    ?>
-                                    <?php 
+
+                                        // Approve A Comment 
+                                        if (isset($_GET['approve'])) {
+                                            $comment_Approve_ID = $_GET['approve'];
+                                            $Approve_Query = "UPDATE comments SET comment_status='approve' WHERE comment_id=$comment_Approve_ID";
+
+                                            $ApproveResult = mysqli_query($connection, $Approve_Query);
+                                            header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
+
+                                            checkQueryError($ApproveResult);
+                                        }
+
+                                        // Unapprove A Comment 
+                                        if (isset($_GET['unapprove'])) {
+                                            $comment_UnApprove_ID = $_GET['unapprove'];
+                                            $UnApprove_Query = "UPDATE comments SET comment_status='unapprove' WHERE comment_id=$comment_UnApprove_ID";
+
+                                            $UnApproveResult = mysqli_query($connection, $UnApprove_Query);
+                                            header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
+
+                                            checkQueryError($ApproveResult);
+                                        }
+
+
+                                        // Delete A Comment
                                         if (isset($_GET['delete'])) {
-                                            $delete_ID = $_GET['delete'];
-
-                                            $Delete_Query = "DELETE FROM posts WHERE post_id='{$delete_ID}'";
-                                            $delete_result = mysqli_query($connection, $Delete_Query);
-                                            
-                                            header("Location: index.php"); //Reload the page to see changes
-
-                                            checkQueryError($delete_result);
+                                            $comment_ID = $_GET['delete'];
+                                            $Delete_Comment_Query = "DELETE FROM comments WHERE comment_id=$comment_ID";
+                                        
+                                            $DeleteCommentResult = mysqli_query($connection, $Delete_Comment_Query);
+                                            header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
+                                            checkQueryError($DeleteCommentResult);
                                         }
                                     ?>
                                 </tbody>

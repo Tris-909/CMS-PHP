@@ -115,6 +115,8 @@
 
                 <!-- Blog Comments -->
                 <?php 
+                    include('./admin/functions.php');
+                    // Create A Comment
                     if (isset($_POST['comment_submit'])) {
                         $comment_post_id = $_GET['id'];
                         $comment_author = $_POST['comment_author'];
@@ -139,6 +141,8 @@
                         $AddCommentResult = mysqli_query($connection, $Add_Comment_Query);
                         checkQueryError($AddCommentResult);
                     }
+
+
                 ?>
 
 
@@ -171,44 +175,31 @@
                 <!-- Posted Comments -->
 
                 <!-- Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    </div>
-                </div>
+                <?php 
+                    $Get_Approved_Comments_Query = "SELECT * FROM comments WHERE comment_status LIKE 'approve'";
+                    $GetRelatedCommentsResult = mysqli_query($connection, $Get_Approved_Comments_Query);
 
-                <!-- Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        <!-- Nested Comment -->
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="http://placehold.it/64x64" alt="">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">Nested Start Bootstrap
-                                    <small>August 25, 2014 at 9:30 PM</small>
-                                </h4>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    while ($ValidComment = mysqli_fetch_assoc($GetRelatedCommentsResult)) {
+                        $comment_author = $ValidComment['comment_author'];
+                        $comment_date = $ValidComment['comment_date'];
+                        $comment_content = $ValidComment['comment_content'];
+
+                        echo "
+                        <div class='media'>
+                        <a class='pull-left' href='#'>
+                            <img class='media-object' src='http://placehold.it/64x64' alt=''>
+                        </a>
+                        <div class='media-body'>
+                            <h4 class='media-heading'> $comment_author
+                                <small>$comment_date</small>
+                            </h4>
+                                $comment_content
                             </div>
                         </div>
-                        <!-- End Nested Comment -->
-                    </div>
-                </div>
-
+                        ";
+                    }
+                
+                ?>
             </div>
 
             <!-- Blog Sidebar Widgets Column -->
