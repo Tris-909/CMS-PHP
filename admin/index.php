@@ -35,9 +35,18 @@
                                 case 'add_comment':
                                     include './includes/add_comment.php';
                                     break;
+                                case 'view_users':
+                                    include './includes/users.php';
+                                    break;
+                                case 'add_users':
+                                    include './includes/add_user.php';
+                                    break;
+                                case 'edit_users':
+                                    include './includes/edit_users.php';
+                                    break;
                                 default: 
                                     include "./includes/view_all_posts.php";
-                                break;
+                                    break;
                             }
                         ?>
                     </div>
