@@ -1,9 +1,10 @@
 <?php 
-    include('./includes/header.php');
-    include('./functions.php');
     include('../includes/db.php');
-
+?>
+<?php 
     session_start();
+    include('./includes/header.php');
+
 
     if(!isset($_SESSION['username'])) {
         header("Location: ../index.php");
@@ -15,7 +16,6 @@
         <?php 
             include('./includes/navigation.php');
         ?>
-
         <div id="page-wrapper">
             <div class="container-fluid">
                 <!-- Page Heading -->
@@ -29,11 +29,17 @@
                             } 
 
                             switch($source) {
+                                case 'view_all_post':
+                                    include './includes/view_all_posts.php';
+                                    break;
                                 case 'add_post':
                                     include './includes/add_post.php';
                                     break;
                                 case 'edit_post':
                                     include './includes/edit_post.php';
+                                    break;
+                                case 'categories':
+                                    include './categories.php';
                                     break;
                                 case 'view_comments':
                                     include './includes/comments.php';
@@ -54,7 +60,7 @@
                                     include './includes/profile.php';
                                     break;
                                 default: 
-                                    include "./includes/view_all_posts.php";
+                                    include "./includes/dashboard.php";
                                     break;
                             }
                         ?>

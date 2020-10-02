@@ -2,7 +2,6 @@
     ob_start();
 ?>
 <?php 
-    include('/Users/USER/Desktop/CMS/CMS_TEMPLATE/includes/db.php');
     if (isset($_SESSION['role'])) {
         if ($_SESSION['role'] == 'subcriber') {
             header("Location: ../index.php");

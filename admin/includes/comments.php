@@ -65,7 +65,7 @@
                                             $ApproveResult = mysqli_query($connection, $Approve_Query);
                                             header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
 
-                                            checkQueryError($ApproveResult);
+                                            // checkQueryError($ApproveResult);
                                         }
 
                                         // Unapprove A Comment 
@@ -76,7 +76,7 @@
                                             $UnApproveResult = mysqli_query($connection, $UnApprove_Query);
                                             header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
 
-                                            checkQueryError($ApproveResult);
+                                            // checkQueryError($ApproveResult);
                                         }
 
 
@@ -89,7 +89,7 @@
                                             //Decrease comment_count by 1 code below :
                                             $Get_Current_Count_Query = "SELECT post_id, post_comment_count FROM posts WHERE post_id=$comment_post_id";
                                             $GetCountResult = mysqli_query($connection, $Get_Current_Count_Query);
-                                            checkQueryError($GetCountResult);
+                                            // checkQueryError($GetCountResult);
                                             while ($thisCount = mysqli_fetch_assoc($GetCountResult)) {
                                                 $postID = $thisCount['post_id'];
                                                 $currentCount = $thisCount['post_comment_count'];
@@ -97,12 +97,12 @@
                                             
                                                 $Update_New_Count_Query = "UPDATE posts SET post_comment_count=$newCount WHERE post_id=$postID";
                                                 $UpdateResult = mysqli_query($connection, $Update_New_Count_Query);
-                                                checkQueryError($UpdateResult);
+                                                // checkQueryError($UpdateResult);
                                             } 
 
                                             $DeleteCommentResult = mysqli_query($connection, $Delete_Comment_Query);
                                             header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
-                                            checkQueryError($DeleteCommentResult);
+                                            // checkQueryError($DeleteCommentResult);
                                         }
                                     ?>
                                 </tbody>

@@ -39,7 +39,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#post"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="post" class="collapse">
                             <li>
-                                <a href="index.php">View All Posts</a>
+                                <a href="/admin/index.php?source=view_all_post">View All Posts</a>
                             </li>
                             <li>
                                 <a href="index.php?source=add_post">Add Posts</a>
@@ -47,7 +47,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="http://localhost:8888/admin/categories.php"><i class="fa fa-fw fa-wrench"></i> Categories </a>
+                        <a href="index.php?source=categories"><i class="fa fa-fw fa-wrench"></i> Categories </a>
                     </li>
                     <li>
                         <a href="index.php?source=view_comments"><i class="fa fa-fw fa-file"></i> Comments </a>

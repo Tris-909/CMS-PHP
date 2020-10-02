@@ -115,7 +115,6 @@
 
                 <!-- Blog Comments -->
                 <?php 
-                    include('./admin/functions.php');
                     // Create A Comment
                     if (isset($_POST['comment_submit'])) {
                         $comment_post_id = $_GET['id'];

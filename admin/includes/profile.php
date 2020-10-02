@@ -1,5 +1,4 @@
 <?php 
-
     if (isset($_SESSION['username'])) {
         $Account = $_SESSION['username'];
         $Role = $_SESSION['role'];
@@ -18,6 +17,8 @@
         $Updated_LastName = $_POST['user_lastname'];
         $Updated_Email = $_POST['user_email'];
 
+
+    // Get the data and push it into database    
     $Update_Query = "UPDATE users SET user_account='{$Updated_Account}', user_role='{$Updated_Role}', user_password='{$Updated_Password}', user_firstname='{$Updated_FirstName}', user_lastname='{$Updated_LastName}', user_email='{$Updated_Email}' WHERE user_id='{$ID}' "; 
     $Result = mysqli_query($connection, $Update_Query);
 
@@ -25,6 +26,7 @@
         die("Query Failed" . mysqli_error($connection));
     }
 
+    // Diretly get new data and update session to render the right information 
     $Get_New_Info_Session = "SELECT * FROM users WHERE user_id='{$ID}'";
     $New_Info = mysqli_query($connection, $Get_New_Info_Session);
 
@@ -38,8 +40,6 @@
 
         header("Location: http://localhost:8888/admin/index.php");
     }
-
-
     }
 ?>
 

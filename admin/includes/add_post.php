@@ -27,7 +27,7 @@
         post_comment_count, 
         post_status) 
         VALUES 
-        ('{$post_category_id}',
+        ({$post_category_id},
         '{$post_title}',
         '{$post_author}',
         now(),
@@ -38,8 +38,10 @@
         '{$post_status}')";
 
         $create_post_query = mysqli_query($connection, $Add_post_query);
-        
-        checkQueryError($create_post_query);
+        if (!$create_post_query) {
+            die ("QUERY FAILED .". mysqli_error($connection));
+        }
+        // checkQueryError($create_post_query);
     }
 ?>
 <h1 class="page-header">
@@ -64,7 +66,7 @@
                     $category_id = $CategoryResult["cat_id"];
 
                     echo "
-                        <option value='{$category_title}'>$category_title</option>
+                        <option value='{$category_id}'>$category_title</option>
                     ";
                 }
             ?>

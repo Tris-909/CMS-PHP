@@ -67,7 +67,7 @@
                                             
                                             header("Location: index.php"); //Reload the page to see changes
 
-                                            checkQueryError($delete_result);
+                                            // checkQueryError($delete_result);
                                         }
                                     ?>
                                 </tbody>
