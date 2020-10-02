@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <a href="posts.php">
+            <a href="./index.php?source=view_all_post">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -34,6 +34,12 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
+        <?php 
+            $GetCommentsQuery = "SELECT * FROM comments";
+            $GetCommentsResult = mysqli_query($connection, $GetCommentsQuery);
+            $CommentsCount = mysqli_num_rows($GetCommentsResult);
+
+        ?>
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
@@ -41,12 +47,12 @@
                         <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                     <div class='huge'>23</div>
+                     <div class='huge'><?php echo $CommentsCount; ?></div>
                       <div>Comments</div>
                     </div>
                 </div>
             </div>
-            <a href="comments.php">
+            <a href="./index.php?source=view_comments">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -56,6 +62,13 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
+        <?php 
+            $GetUsersQuery = "SELECT * FROM users";
+            $GetUsersResult = mysqli_query($connection, $GetUsersQuery);
+            $UserCounts = mysqli_num_rows($GetUsersResult);
+
+
+        ?>
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 <div class="row">
@@ -63,12 +76,12 @@
                         <i class="fa fa-user fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                    <div class='huge'>23</div>
+                    <div class='huge'><?php echo $UserCounts; ?></div>
                         <div> Users</div>
                     </div>
                 </div>
             </div>
-            <a href="users.php">
+            <a href="./index.php?source=view_users">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -78,6 +91,12 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
+        <?php 
+            $GetCategoriesQuery = "SELECT * FROM categories";
+            $GetCategoriesResult = mysqli_query($connection, $GetCategoriesQuery);
+            $CategoriesCount = mysqli_num_rows($GetCategoriesResult);
+
+        ?>
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -85,12 +104,12 @@
                         <i class="fa fa-list fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class='huge'>13</div>
+                        <div class='huge'><?php echo $CategoriesCount; ?></div>
                          <div>Categories</div>
                     </div>
                 </div>
             </div>
-            <a href="categories.php">
+            <a href="./index.php?source=categories">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -101,3 +120,31 @@
     </div>
 </div>
 <!-- /.row -->
+
+<div class="row">
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Overall', 'Posts', 'Categories', 'Users', 'Comments'],
+          ['2020', <?php echo $numberOfPosts; ?>, <?php echo $CategoriesCount; ?>, <?php echo $UserCounts; ?>, <?php echo $CommentsCount; ?>],
+
+        ]);
+
+        var options = {
+          chart: {
+            title: 'CMS Summary',
+            subtitle: '2020',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+    <br>
+    <div id="columnchart_material" style="width: 600px; height: 400px;  margin: 0 auto;"></div>
+</div>
