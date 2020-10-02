@@ -2,6 +2,12 @@
     include('./includes/header.php');
     include('./functions.php');
     include('../includes/db.php');
+
+    session_start();
+
+    if(!isset($_SESSION['username'])) {
+        header("Location: ../index.php");
+    }
 ?>
 
     <div id="wrapper">

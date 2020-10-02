@@ -3,6 +3,11 @@
 ?>
 <?php 
     include('/Users/USER/Desktop/CMS/CMS_TEMPLATE/includes/db.php');
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 'subcriber') {
+            header("Location: ../index.php");
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>CMS Admin</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

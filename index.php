@@ -15,10 +15,10 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
-                <h1 class="page-header">
-                    Welcome back 
+                <!-- <h1 class="page-header">
+                    Yoyo 
                     <small>We miss you</small>
-                </h1>
+                </h1> -->
 
                 <!-- First Blog Post -->
                 <?php 
