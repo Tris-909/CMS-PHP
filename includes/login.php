@@ -30,9 +30,12 @@
         if($Account !== $db_account && $Password !== $db_password) {
             header("Location: ../index.php");
         } else {
+            $_SESSION['userID'] =  $id;
             $_SESSION['username'] = $db_account; 
+            $_SESSION['password'] = $db_password;
             $_SESSION['firstname'] = $firstname;
             $_SESSION['lastname'] = $lastname;
+            $_SESSION['email'] = $email;
             $_SESSION['role'] = $role;
 
             header("Location: ../admin/index.php");

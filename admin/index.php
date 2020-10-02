@@ -50,6 +50,9 @@
                                 case 'edit_users':
                                     include './includes/edit_users.php';
                                     break;
+                                case 'profile':
+                                    include './includes/profile.php';
+                                    break;
                                 default: 
                                     include "./includes/view_all_posts.php";
                                     break;
