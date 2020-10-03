@@ -185,19 +185,19 @@
                     <form role="form" method="POST">
                         <div class="form_group">
                             <label for="comment_author">Comment Author :</label>
-                            <input type="text" class="form-control" name="comment_author">
+                            <input type="text" class="form-control" name="comment_author" required>
                         </div>
                         <br>
 
                         <div class="form_group">
                             <label for="comment_email">Comment Email :</label>
-                            <input type="email" class="form-control" name="comment_email">
+                            <input type="email" class="form-control" name="comment_email" required>
                         </div>
                         <br>
 
                         <div class="form-group">
                             <label for="comment_content">Comment Content :</label>
-                            <textarea class="form-control" rows="3" name="comment_content"></textarea>
+                            <textarea class="form-control" rows="3" name="comment_content" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" name="comment_submit">Submit</button>
                     </form>

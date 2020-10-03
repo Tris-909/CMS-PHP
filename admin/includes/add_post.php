@@ -41,8 +41,14 @@
         if (!$create_post_query) {
             die ("QUERY FAILED .". mysqli_error($connection));
         }
-        // checkQueryError($create_post_query);
+
+        $the_last_post_ID = mysqli_insert_id($connection);
+
+        echo "
+        <div class='alert alert-success' role='alert'>New post has been created successfully ! <a href='../post.php?id=$the_last_post_ID'>View This Post Here</a> </div>
+        ";
     }
+
 ?>
 <h1 class="page-header">
     Add A Post
@@ -82,7 +88,10 @@
 
     <div class="form_group">
         <label for="title">Post Status : </label>
-        <input type="text" class="form-control" name="post_status">
+        <select name="post_status">
+                <option value="public">public</option>
+                <option value="draft">draft</option>
+        </select>
     </div>
     <br>
 

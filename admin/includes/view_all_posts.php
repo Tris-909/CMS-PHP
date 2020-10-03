@@ -15,7 +15,7 @@
                 break;
                 case 'delete':
                     $Bulk_Delete_Query = "DELETE FROM posts WHERE post_id=$CurPost_ID";
-                    mysqli_query($connection, $Bulk_Draft_Query);
+                    mysqli_query($connection, $Bulk_Delete_Query);
                 break;
             }
         }
@@ -63,6 +63,7 @@
                 <th>Comments</th>
                 <th>Date</th>
                 <th>Edit</th>
+                <th>View Post</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -103,7 +104,8 @@
                     <td> $Comments </td>
                     <td> $Date </td>
                     <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
-                    <td> <a href='index.php?delete={$ID}'> Delete </a> </td>
+                    <td> <a href='../post.php?id=$ID'> View Post </a> </td>
+                    <td> <a href='index.php?source=view_all_post&delete={$ID}'> Delete </a> </td>
                 </tr>
                 ";
             }
@@ -114,10 +116,8 @@
 
                     $Delete_Query = "DELETE FROM posts WHERE post_id='{$delete_ID}'";
                     $delete_result = mysqli_query($connection, $Delete_Query);
-                    
-                    header("Location: index.php"); //Reload the page to see changes
 
-                    // checkQueryError($delete_result);
+                    header("Location: index.php?source=view_all_post");
                 }
             ?>
         </tbody>
