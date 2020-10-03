@@ -34,6 +34,9 @@
                             }
                         }
                     ?>
+                    <li>
+                        <a href='./registration.php'>Sign Up</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
