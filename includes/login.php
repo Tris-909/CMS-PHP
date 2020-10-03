@@ -10,7 +10,20 @@
         $Account = mysqli_real_escape_string($connection, $Account);
         $Password = mysqli_real_escape_string($connection, $Password);
 
-        $query = "SELECT * FROM users WHERE user_account='{$Account}' AND user_password='{$Password}' ";
+        $hashFormat = "$2y$07$";
+    
+        // Get randSalt from databases
+        $GetSaltQuery = "SELECT randSalt FROM users";
+        $GetSaltResult = mysqli_query($connection, $GetSaltQuery);
+        $row = mysqli_fetch_array($GetSaltResult);
+        $randSalt = $row['randSalt'];
+
+
+        $hash_and_salt = $hashFormat .  $randSalt;
+        $encrypt_password = crypt($Password, $hash_and_salt);
+
+
+        $query = "SELECT * FROM users WHERE user_account='{$Account}' AND user_password='{$encrypt_password}' ";
         $Result = mysqli_query($connection, $query);
 
         if (!$Result) {

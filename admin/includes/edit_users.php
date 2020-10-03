@@ -26,7 +26,18 @@
         $LastName = $_POST['user_lastname'];
         $Email = $_POST['user_email'];
 
-        $EditUserQuery = "UPDATE users SET user_account='{$Account}', user_password='{$Password}', user_firstname='{$FirstName}', user_lastname='{$LastName}', user_email='{$Email}', user_role='{$Role}' WHERE user_id=$UserID";
+        $hashFormat = "$2y$07$";
+    
+        // Get randSalt from databases
+        $GetSaltQuery = "SELECT randSalt FROM users";
+        $GetSaltResult = mysqli_query($connection, $GetSaltQuery);
+        $row = mysqli_fetch_array($GetSaltResult);
+        $randSalt = $row['randSalt'];
+        $hash_and_salt = $hashFormat .  $randSalt;
+        $encrypt_password = crypt($Password, $hash_and_salt);
+
+
+        $EditUserQuery = "UPDATE users SET user_account='{$Account}', user_password='{$encrypt_password}', user_firstname='{$FirstName}', user_lastname='{$LastName}', user_email='{$Email}', user_role='{$Role}' WHERE user_id=$UserID";
         mysqli_query($connection, $EditUserQuery);
 
         $GetNewInfoQuery = "SELECT * FROM users WHERE user_id=$UserID";
@@ -34,7 +45,7 @@
         while ($NewInfo = mysqli_fetch_assoc($GetNewInfoResult)) {
             $NewRole = $NewInfo['user_role'];
 
-            if ($NewRole = 'subcriber') {
+            if ($NewRole == 'subcriber') {
                 header("Location: ../index.php");
             }
         }

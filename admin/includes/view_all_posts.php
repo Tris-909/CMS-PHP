@@ -105,7 +105,7 @@
                     <td> $Date </td>
                     <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
                     <td> <a href='../post.php?id=$ID'> View Post </a> </td>
-                    <td> <a href='index.php?source=view_all_post&delete={$ID}'> Delete </a> </td>
+                    <td> <a onClick=\"javascript: return confirm('Are you sure you want to delete this post ?');\" href='index.php?source=view_all_post&delete={$ID}'> Delete </a> </td>
                 </tr>
                 ";
             }
