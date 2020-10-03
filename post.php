@@ -1,3 +1,6 @@
+<?php 
+    include('./includes/db.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blog Post - Start Bootstrap Template</title>
+    <title>Blog Post</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -39,20 +42,33 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Start Bootstrap</a>
+                <a class="navbar-brand" href="index.php">CMS</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+                    <?php 
+                        $query = "SELECT * FROM categories";
+                        $result = mysqli_query($connection, $query);
+
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $title = $row["cat_title"];
+                            echo "<li><a href='#'>{$title}</a></li>";
+                        }
+                    ?>
                     <li>
-                        <a href="#">About</a>
+                        <a href="admin/index.php">Admin</a>
                     </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
+                    <?php 
+                        session_start();        
+                        $role = $_SESSION['role'];
+                        $CurrentPostID = $_GET['id'];
+                        echo "
+                            <li>
+                            <a href='./admin/index.php?source=edit_post&edit=$CurrentPostID'>Edit this post</a>
+                            </li>
+                        ";
+                    ?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -78,8 +94,9 @@
                     $post_author = $post['post_author'];
                     $post_date = $post['post_date'];
                     $post_content = $post['post_content'];
-                    $post_image = $post['post_image'];
+                    $post_image = $post['post_image'];    
 
+                    
                     echo "
                         <!-- Blog Post -->
 
@@ -95,7 +112,6 @@
 
                         <!-- Date/Time -->
                         <p><span class='glyphicon glyphicon-time'></span> Posted on $post_date</p>
-
                         <hr>
 
                         <!-- Preview Image -->

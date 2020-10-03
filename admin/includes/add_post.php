@@ -101,7 +101,7 @@
     
     <div class="form_group">
         <label for="title">Post Content : </label>
-        <textarea class="form-control" name="post_content" id="" cols="30" rows="10"></textarea>
+        <textarea id="body" class="form-control" name="post_content" cols="30" rows="10"></textarea>
     </div>
     <br>
     <div class="form_group">

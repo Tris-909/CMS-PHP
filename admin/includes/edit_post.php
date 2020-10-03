@@ -38,9 +38,12 @@
         }
 
         mysqli_query($connection, $Edit_Query);
-        
-        header("Location: ./index.php?source=view_all_post"); //Reload the page to see changes
+
+        echo "
+        <div class='alert alert-success' role='alert'>Edit post successfully ! <a href='../post.php?id={$post_id}'>View This Post</a> </div>
+        ";
     }
+
 ?>
 
 <form action="" method="POST" enctype="multipart/form-data">
@@ -132,7 +135,7 @@
     
     <div class="form_group">
         <label for="title">Post Content : </label>
-        <textarea class="form-control" name="post_content" id="" cols="30" rows="10"><?php echo $post_content; ?></textarea>
+        <textarea class="form-control" name="post_content" id="body" cols="30" rows="10"><?php echo $post_content; ?></textarea>
     </div>
     <br>
     <div class="form_group">

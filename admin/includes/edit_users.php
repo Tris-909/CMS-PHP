@@ -26,8 +26,18 @@
         $LastName = $_POST['user_lastname'];
         $Email = $_POST['user_email'];
 
-        $EditUserQuery = "UPDATE users SET user_account='{$Account}', user_password='{$Password}', user_firstname='{$FirstName}', user_lastname='{$LastName}', user_email='{$Email}', user_role='{$Role}' WHERE user_id=$userID";
+        $EditUserQuery = "UPDATE users SET user_account='{$Account}', user_password='{$Password}', user_firstname='{$FirstName}', user_lastname='{$LastName}', user_email='{$Email}', user_role='{$Role}' WHERE user_id=$UserID";
         mysqli_query($connection, $EditUserQuery);
+
+        $GetNewInfoQuery = "SELECT * FROM users WHERE user_id=$UserID";
+        $GetNewInfoResult = mysqli_query($connection, $GetNewInfoQuery);
+        while ($NewInfo = mysqli_fetch_assoc($GetNewInfoResult)) {
+            $NewRole = $NewInfo['user_role'];
+
+            if ($NewRole = 'subcriber') {
+                header("Location: ../index.php");
+            }
+        }
     }
 ?>
 

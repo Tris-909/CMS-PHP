@@ -22,18 +22,18 @@
                             echo "<li><a href='#'>{$title}</a></li>";
                         }
                     ?>
-                    <li>
-                        <a href="admin/index.php">Admin</a>
-                    </li>
-                    <!-- <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li> -->
+                    <?php 
+
+                        if (isset($_SESSION['username'])) {
+                            if ($_SESSION['role'] == 'admin') {
+                                echo "
+                                <li>
+                                    <a href='admin/index.php'>Admin</a>
+                                </li>
+                                ";
+                            }
+                        }
+                    ?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
