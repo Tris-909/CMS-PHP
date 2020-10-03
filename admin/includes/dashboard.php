@@ -120,17 +120,29 @@
     </div>
 </div>
 <!-- /.row -->
+<?php 
+    //Get draft and public posts 
+    $Get_Draft_Posts_Query = "SELECT * FROM posts WHERE post_status='draft'";
+    $GetDraftPostsResult = mysqli_query($connection, $Get_Draft_Posts_Query);
+    $NumberOfDraftPosts = mysqli_num_rows($GetDraftPostsResult);
+
+    $Get_Public_Posts_Query = "SELECT * FROM posts WHERE post_status='public'";
+    $GetPublicPostsResult = mysqli_query($connection, $Get_Public_Posts_Query);
+    $NumberOfPublicPosts = mysqli_num_rows($GetPublicPostsResult);
+
+?>
+
 
 <div class="row">
 <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
       google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawAnotherChart);
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Overall', 'Posts', 'Categories', 'Users', 'Comments'],
           ['2020', <?php echo $numberOfPosts; ?>, <?php echo $CategoriesCount; ?>, <?php echo $UserCounts; ?>, <?php echo $CommentsCount; ?>],
-
         ]);
 
         var options = {
@@ -144,7 +156,26 @@
 
         chart.draw(data, google.charts.Bar.convertOptions(options));
       }
+
+      function drawAnotherChart() {
+        var postsData = google.visualization.arrayToDataTable([
+            ['Draft/Public Posts', 'Draft', 'Public', 'Total Posts'],
+            ['2020', <?php echo $NumberOfDraftPosts; ?>, <?php echo  $NumberOfPublicPosts; ?>, <?php echo $numberOfPosts; ?>]
+        ]);
+
+        var PostsOptions = {
+            chart: {
+                title: 'Posts Summary',
+                subtitle: '2020'
+            }
+        }
+
+        var postsChart = new google.charts.Bar(document.getElementById('new_columnchart_material'));
+        postsChart.draw(postsData, google.charts.Bar.convertOptions(PostsOptions));
+      }
     </script>
     <br>
-    <div id="columnchart_material" style="width: 600px; height: 400px;  margin: 0 auto;"></div>
+    <div id="columnchart_material" style="width: 80%; height: 400px;  margin: 0 auto;"></div>
+    <br>
+    <div id="new_columnchart_material" style="width: 80%; height: 400px;  margin: 0 auto;"></div>
 </div>

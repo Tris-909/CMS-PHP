@@ -29,6 +29,10 @@
         if (!$AddUserResult) {
             die ("QUERY FAILED .". mysqli_error($connection));
         }
+
+        echo "
+        <div class='alert alert-success' role='alert'>You have created user successfully ! <a href='index.php?source=view_users'>View Users</a> </div>
+        ";
     }
 ?>
 

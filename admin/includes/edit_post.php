@@ -38,7 +38,8 @@
         }
 
         mysqli_query($connection, $Edit_Query);
-        header("Location: ./index.php?source=view_all_posts"); //Reload the page to see changes
+        
+        header("Location: ./index.php?source=view_all_post"); //Reload the page to see changes
     }
 ?>
 
