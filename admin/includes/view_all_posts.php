@@ -104,6 +104,7 @@
                 <th>Tags</th>
                 <th>Comments</th>
                 <th>Date</th>
+                <th>Views</th>
                 <th>Edit</th>
                 <th>View Post</th>
                 <th>Delete</th>
@@ -132,6 +133,7 @@
                 $Tags = $row["post_tags"];
                 $Comments = $row["post_comment_count"];
                 $Date = $row["post_date"];
+                $Views = $row["post_views"];
 
                 echo "
                 <tr>
@@ -145,6 +147,7 @@
                     <td> $Tags </td>
                     <td> $Comments </td>
                     <td> $Date </td>
+                    <td> $Views </td>
                     <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
                     <td> <a href='../post.php?id=$ID'> View Post </a> </td>
                     <td> <a onClick=\"javascript: return confirm('Are you sure you want to delete this post ?');\" href='index.php?source=view_all_post&delete={$ID}'> Delete </a> </td>

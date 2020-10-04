@@ -112,7 +112,7 @@
                     $post_date = $post['post_date'];
                     $post_content = $post['post_content'];
                     $post_image = $post['post_image'];    
-
+                    $post_views = $post['post_views'];  
                     
                     echo "
                         <!-- Blog Post -->
@@ -127,6 +127,7 @@
 
                         <hr>
 
+                        <p>$post_views views</p>
                         <!-- Date/Time -->
                         <p><span class='glyphicon glyphicon-time'></span> Posted on $post_date</p>
                         <hr>
@@ -140,6 +141,10 @@
                         <p class='lead'> $post_content </p>
                         <hr>
                     ";
+
+                    $new_views = $post_views +1;
+                    $Update_View_Query = "UPDATE posts SET post_views=$new_views WHERE post_id=$post_ID";
+                    mysqli_query($connection, $Update_View_Query);
                 }
 
             }
