@@ -18,25 +18,33 @@
 
 
                 <!-- Login  -->
-                <div class="well">
-                    <h3>Login</h3>
-                    <form action="./includes/login.php" method="POST">
-                    <div class="input-group">
-                        <div class="input-group">
-                            <label for="account">Account :</label>
-                            <input name="account" type="text" class="form-control" placeholder="Account" required>
+                <?php 
+                    if (isset($_SESSION['username'])) {
+                        echo "";
+                    } else {
+                        echo "
+                        <div class='well'>
+                        <h3>Login</h3>
+                        <form action='./includes/login.php' method='POST'>
+                        <div class='input-group'>
+                            <div class='input-group'>
+                                <label for='account'>Account :</label>
+                                <input name='account' type='text' class='form-control' placeholder='Account' required>
+                            </div>
+                            <br>
+                            <div class='input-group'>
+                                <label for='password'>Password :</label>
+                                <input name='password' type='password' class='form-control' placeholder='Password' required>
+                            </div>
+                            <br>
+                            <input type='submit' name='login' class='btn btn-primary'>
                         </div>
-                        <br>
-                        <div class="input-group">
-                            <label for="password">Password :</label>
-                            <input name="password" type="password" class="form-control" placeholder="Password" required>
+                        </form>
                         </div>
-                        <br>
-                        <input type="submit" name="login" class="btn btn-primary">
-                    </div>
-                    </form>
-                    <!-- /.input-group -->
-                </div>
+                        ";
+                    }
+                ?>
+
 
                 <!-- Blog Categories Well -->
 

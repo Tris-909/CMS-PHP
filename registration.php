@@ -30,6 +30,8 @@
                 if(!$CreateUserResult) {
                     die("Query Failed ". mysqli_error($connection));
                 }    
+
+                
             } else {
                 $message = "Field can't be empty";
             }

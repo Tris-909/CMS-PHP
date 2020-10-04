@@ -2,7 +2,7 @@
     if (isset($_POST['create_post'])) {
         $post_category_id = $_POST['post_category_id'];
         $post_title = $_POST['title'];
-        $post_author = $_POST['post_author'];
+        $post_author = $_SESSION['username'];
         $post_date = date('d-m-y');
 
         $post_image = $_FILES['image']['name'];
@@ -77,12 +77,6 @@
                 }
             ?>
         </select>
-    </div>
-    <br>
-
-    <div class="form_group">
-        <label for="title">Post Author : </label>
-        <input type="text" class="form-control" name="post_author">
     </div>
     <br>
 
