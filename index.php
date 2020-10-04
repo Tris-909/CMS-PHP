@@ -14,15 +14,9 @@
 
             <!-- Blog Entries Column -->
             <div class="col-md-8">
-
-                <!-- <h1 class="page-header">
-                    Yoyo 
-                    <small>We miss you</small>
-                </h1> -->
-
                 <!-- First Blog Post -->
                 <?php 
-                    $query = "SELECT * FROM posts WHERE post_status='public'";
+                    $query = "SELECT * FROM posts WHERE post_status='public' ORDER BY post_id asc";
                     $UsedQuery = $query;
 
                     if (isset($_POST["submit"])) {
@@ -30,6 +24,21 @@
                         $Squery = "SELECT * FROM posts WHERE post_tags LIKE '%$search%'";
                         $UsedQuery = $Squery;
                     }
+
+                    // PAGINATION
+                    if (isset($_GET['page'])) {
+                        $page = $_GET['page'];
+                    } else {
+                        $page = "";
+                    }
+
+                    if ($page == "" || $page == 1) {
+                        $page_1 = 0;
+                    } else {
+                        $page_1 = ($page * 3) - 3;
+                    }
+
+                    $UsedQuery = "SELECT * FROM posts WHERE post_status='public' LIMIT $page_1, 3";
 
                     $postRead = mysqli_query($connection, $UsedQuery);
                     $count = mysqli_num_rows($postRead);
@@ -72,7 +81,52 @@
 
         </div>
         <!-- /.row -->
+        <nav>
+            <ul class="pagination">
+              <li>
+                <a href="index.php?page=1" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <?php 
+                $GetNumberOfPostsQuery = "SELECT * FROM posts WHERE post_status='public'";
+                $GetNumberOfPostResult = mysqli_query($connection, $GetNumberOfPostsQuery);
+                $NumberOfPosts = mysqli_num_rows($GetNumberOfPostResult);
+                $NumberOfPages = ceil($NumberOfPosts/3);
 
+                if (isset($_GET['page'])) {
+                    for ($i = 1; $i <= $NumberOfPages; $i++) {
+                        if ($_GET['page'] == $i) {
+                            echo "
+                            <li class='active'><a href='index.php?page=$i'>$i</a></li>
+                            ";
+                        } else {
+                            echo "
+                            <li><a href='index.php?page=$i'>$i</a></li>
+                            ";
+                        }
+                    }
+                } else {
+                    for ($i = 1; $i <= $NumberOfPages; $i++) {
+                        if ($i == 1) {
+                            echo "
+                            <li class='active'><a href='index.php?page=$i'>$i</a></li>
+                            ";
+                        } else {
+                            echo "
+                            <li><a href='index.php?page=$i'>$i</a></li>
+                            ";
+                        }
+                    }
+                }
+              ?>
+              <li>
+                <a href="index.php?page=<?php echo $NumberOfPages; ?>" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+        </nav>
         <hr>
 <?php 
     include('./includes/footer.php');
