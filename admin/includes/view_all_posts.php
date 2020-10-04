@@ -17,6 +17,47 @@
                     $Bulk_Delete_Query = "DELETE FROM posts WHERE post_id=$CurPost_ID";
                     mysqli_query($connection, $Bulk_Delete_Query);
                 break;
+                case 'clone':
+                    $Get_Post_By_Id_Query = "SELECT * FROM posts WHERE post_id=$CurPost_ID";
+                    $GetPostByIdResult = mysqli_query($connection, $Get_Post_By_Id_Query);
+
+                    while ($post = mysqli_fetch_assoc($GetPostByIdResult)) {
+                        $post_category_id = $post['post_category_id'];
+                        $post_title = $post['post_title'];
+                        $post_author = $post['post_author'];
+                        $post_image = $post['post_image'];
+                        $post_content = $post['post_content'];
+                        $post_tags = $post['post_tags'];
+                        $post_comment_count = $post['post_comment_count'];
+                        $post_status = $post['post_status'];
+
+                        $Add_post_query = "INSERT INTO posts 
+                        (post_category_id, 
+                        post_title, 
+                        post_author, 
+                        post_date, 
+                        post_image, 
+                        post_content, 
+                        post_tags, 
+                        post_comment_count, 
+                        post_status) 
+                        VALUES 
+                        ({$post_category_id},
+                        '{$post_title}',
+                        '{$post_author}',
+                        now(),
+                        '{$post_image}',
+                        '{$post_content}',
+                        '{$post_tags}',
+                        '{$post_comment_count}',
+                        '{$post_status}')";
+
+                        $create_post_query = mysqli_query($connection, $Add_post_query);
+                        if (!$create_post_query) {
+                            die ("QUERY FAILED .". mysqli_error($connection));
+                        }
+                    }
+                break;
             }
         }
     }
@@ -33,6 +74,7 @@
                 <option value="public">Public</option>
                 <option value="draft">Draft</option>
                 <option value="delete">Delete</option>
+                <option value="clone">Clone</option>
                 <option value="" selected>All Posts</option>
             </select>
 
