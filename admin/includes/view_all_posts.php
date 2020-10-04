@@ -58,6 +58,10 @@
                         }
                     }
                 break;
+                case 'reset': 
+                    $Reset_Views_Query = "UPDATE posts SET post_views=0 WHERE post_id=$CurPost_ID";
+                    mysqli_query($connection, $Reset_Views_Query);
+                break;
             }
         }
     }
@@ -71,10 +75,11 @@
 
         <div class="bulkOptionsContainer" class="col-xs-4">
             <select class="form-control" name="options">
-                <option value="public">Public</option>
-                <option value="draft">Draft</option>
-                <option value="delete">Delete</option>
-                <option value="clone">Clone</option>
+                <option value="public">Set Status to public</option>
+                <option value="draft">Set Status to draft</option>
+                <option value="delete">Delete Posts</option>
+                <option value="clone">Clone Posts</option>
+                <option value="reset">Reset Views</option>
                 <option value="" selected>All Posts</option>
             </select>
 
