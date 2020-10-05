@@ -15,6 +15,8 @@
             $LastName = $row['user_lastname'];
             $Email = $row['user_email'];
         }
+    } else {
+        header("Location: ../index.php");
     }
 
     if(isset($_POST['edit_user']) && isset($_GET['edit'])) {
@@ -26,18 +28,9 @@
         $LastName = $_POST['user_lastname'];
         $Email = $_POST['user_email'];
 
-        $hashFormat = "$2y$07$";
-    
-        // Get randSalt from databases
-        $GetSaltQuery = "SELECT randSalt FROM users";
-        $GetSaltResult = mysqli_query($connection, $GetSaltQuery);
-        $row = mysqli_fetch_array($GetSaltResult);
-        $randSalt = $row['randSalt'];
-        $hash_and_salt = $hashFormat .  $randSalt;
-        $encrypt_password = crypt($Password, $hash_and_salt);
+        $Password = password_hash($Password, PASSWORD_BCRYPT, array('cost' => 12));
 
-
-        $EditUserQuery = "UPDATE users SET user_account='{$Account}', user_password='{$encrypt_password}', user_firstname='{$FirstName}', user_lastname='{$LastName}', user_email='{$Email}', user_role='{$Role}' WHERE user_id=$UserID";
+        $EditUserQuery = "UPDATE users SET user_account='{$Account}', user_password='{$Password}', user_firstname='{$FirstName}', user_lastname='{$LastName}', user_email='{$Email}', user_role='{$Role}' WHERE user_id=$UserID";
         mysqli_query($connection, $EditUserQuery);
 
         $GetNewInfoQuery = "SELECT * FROM users WHERE user_id=$UserID";
@@ -83,8 +76,8 @@
     <br>
 
     <div class="form_group">
-        <label for="title">Password : </label>
-        <input type="password" class="form-control" name="user_password" value="<?php echo $Password; ?>">
+        <label for="title">New Password : </label>
+        <input type="password" class="form-control" name="user_password">
     </div>
     <br>
 

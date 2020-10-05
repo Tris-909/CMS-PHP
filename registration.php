@@ -12,19 +12,9 @@
                 $email = mysqli_escape_string($connection, $email);
                 $password = mysqli_escape_string($connection, $password);
     
-                $hashFormat = "$2y$07$";
+                $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
     
-                // Get randSalt from databases
-                $GetSaltQuery = "SELECT randSalt FROM users";
-                $GetSaltResult = mysqli_query($connection, $GetSaltQuery);
-                $row = mysqli_fetch_array($GetSaltResult);
-                $randSalt = $row['randSalt'];
-    
-    
-                $hash_and_salt = $hashFormat .  $randSalt;
-                $encrypt_password = crypt($password, $hash_and_salt);
-    
-                $CreateUserQuery = "INSERT INTO users (user_account, user_password, user_email, user_role) VALUES ('{$username}', '{$encrypt_password}', '{$email}', 'subcriber')";
+                $CreateUserQuery = "INSERT INTO users (user_account, user_password, user_email, user_role) VALUES ('{$username}', '{$password}', '{$email}', 'subcriber')";
                 $CreateUserResult = mysqli_query($connection, $CreateUserQuery);
     
                 if(!$CreateUserResult) {

@@ -18,6 +18,8 @@
         $Updated_Email = $_POST['user_email'];
 
 
+        $Updated_Password = password_hash($Updated_Password, PASSWORD_BCRYPT, array('cost' => 12));
+
     // Get the data and push it into database    
     $Update_Query = "UPDATE users SET user_account='{$Updated_Account}', user_role='{$Updated_Role}', user_password='{$Updated_Password}', user_firstname='{$Updated_FirstName}', user_lastname='{$Updated_LastName}', user_email='{$Updated_Email}' WHERE user_id='{$ID}' "; 
     $Result = mysqli_query($connection, $Update_Query);
@@ -74,8 +76,8 @@
     <br>
 
     <div class="form_group">
-        <label for="title">Password : </label>
-        <input type="password" class="form-control" name="user_password" value="<?php echo $Password; ?>">
+        <label for="title">Change Your Password : </label>
+        <input type="password" class="form-control" name="user_password">
     </div>
     <br>
 

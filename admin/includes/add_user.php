@@ -10,6 +10,8 @@
         $LastName = $_POST['user_lastname'];
         $Email = $_POST['user_email'];
 
+        $Password = password_hash($Password, PASSWORD_BCRYPT, array('cost' => 12));
+
         $Add_User_Query = "INSERT INTO users (user_account, 
         user_password, 
         user_firstname,
