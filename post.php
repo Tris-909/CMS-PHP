@@ -56,18 +56,25 @@
                             echo "<li><a href='#'>{$title}</a></li>";
                         }
                     ?>
-                    <li>
-                        <a href="admin/index.php">Admin</a>
-                    </li>
+
                     <?php 
-                        session_start();        
-                        $role = $_SESSION['role'];
-                        $CurrentPostID = $_GET['id'];
-                        echo "
-                            <li>
-                            <a href='./admin/index.php?source=edit_post&edit=$CurrentPostID'>Edit this post</a>
-                            </li>
-                        ";
+                        session_start();
+                        if (isset($_SESSION['role'])) {
+                            $role = $_SESSION['role'];
+                            $CurrentPostID = $_GET['id'];
+                            if ($role == 'admin') {
+                                echo "
+                                <li>
+                                    <a href='admin/index.php'>Admin</a>
+                                </li>
+                                ";
+                            }
+                            echo "
+                                <li>
+                                <a href='./admin/index.php?source=edit_post&edit=$CurrentPostID'>Edit this post</a>
+                                </li>
+                            ";
+                        }        
                     ?>
                 </ul>
                 <?php 
@@ -154,10 +161,10 @@
                 <!-- Blog Comments -->
                 <?php 
                     // Create A Comment
-                    if (isset($_POST['comment_submit'])) {
+                    if (isset($_POST['comment_submit']) && isset($_SESSION['username'])) {
                         $comment_post_id = $_GET['id'];
-                        $comment_author = $_POST['comment_author'];
-                        $comment_email = $_POST['comment_email'];
+                        $comment_author = $_SESSION['username'];
+                        $comment_email = $_SESSION['email'];
                         $comment_content = $_POST['comment_content'];
                         $comment_status = 'unapproved';
 
@@ -178,7 +185,7 @@
                         //Increate comment_count by 1 code below :
                         $Get_Current_Count_Query = "SELECT post_id, post_comment_count FROM posts WHERE post_id=$comment_post_id";
                         $GetCountResult = mysqli_query($connection, $Get_Current_Count_Query);
-                        checkQueryError($GetCountResult);
+
                         while ($thisCount = mysqli_fetch_assoc($GetCountResult)) {
                             $postID = $thisCount['post_id'];
                             $currentCount = $thisCount['post_comment_count'];
@@ -186,15 +193,10 @@
 
                             $Update_New_Count_Query = "UPDATE posts SET post_comment_count=$newCount WHERE post_id=$postID";
                             $UpdateResult = mysqli_query($connection, $Update_New_Count_Query);
-                            checkQueryError($UpdateResult);
                         } 
 
 
                         $AddCommentResult = mysqli_query($connection, $Add_Comment_Query);
-
-
-
-                        checkQueryError($AddCommentResult);
                     }
 
 
@@ -202,37 +204,42 @@
 
 
                 <!-- Comments Form -->
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form" method="POST">
-                        <div class="form_group">
-                            <label for="comment_author">Comment Author :</label>
-                            <input type="text" class="form-control" name="comment_author" required>
+                <?php 
+                    if (isset($_SESSION['username'])) {
+                        echo "
+                        <div class='well'>
+                        <h4>Leave a Comment:</h4>
+                        <form role='form' method='POST'>
+                            <div class='form-group'>
+                                <label for='comment_content'>Comment Content :</label>
+                                <textarea class='form-control' rows='3' name='comment_content' required></textarea>
+                            </div>
+                            <button type='submit' class='btn btn-primary' name='comment_submit'>Submit</button>
+                        </form>
                         </div>
-                        <br>
-
-                        <div class="form_group">
-                            <label for="comment_email">Comment Email :</label>
-                            <input type="email" class="form-control" name="comment_email" required>
+                        ";
+                    } else {
+                        echo "
+                        <div class='jumbotron'>
+                            <h4 style='text-align: center;'> Please sign in to comment on this post </h4>
                         </div>
-                        <br>
+                        ";
+                    }
+                ?>
 
-                        <div class="form-group">
-                            <label for="comment_content">Comment Content :</label>
-                            <textarea class="form-control" rows="3" name="comment_content" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" name="comment_submit">Submit</button>
-                    </form>
-                </div>
 
-                <hr>
 
                 <!-- Posted Comments -->
 
                 <!-- Comment -->
                 <?php 
-                    $Get_Approved_Comments_Query = "SELECT * FROM comments WHERE comment_status LIKE 'approve'";
+                    $post_ID = $_GET['id'];
+                    $Get_Approved_Comments_Query = "SELECT * FROM comments WHERE comment_status LIKE 'approve' AND comment_post_id='$post_ID'";
                     $GetRelatedCommentsResult = mysqli_query($connection, $Get_Approved_Comments_Query);
+
+                    if (!$GetRelatedCommentsResult) {
+                        echo "QUERY FAILED " . mysqli_error($connection);
+                    }
 
                     while ($ValidComment = mysqli_fetch_assoc($GetRelatedCommentsResult)) {
                         $comment_author = $ValidComment['comment_author'];
@@ -240,10 +247,8 @@
                         $comment_content = $ValidComment['comment_content'];
 
                         echo "
+                        <hr>
                         <div class='media'>
-                        <a class='pull-left' href='#'>
-                            <img class='media-object' src='http://placehold.it/64x64' alt=''>
-                        </a>
                         <div class='media-body'>
                             <h4 class='media-heading'> $comment_author
                                 <small>$comment_date</small>

@@ -150,7 +150,7 @@
                     <td> $Status </td>
                     <td> <img class='img-responsive' width='100' src='$Image' alt='Image'> </td>
                     <td> $Tags </td>
-                    <td> $Comments </td>
+                    <td> <a href='index.php?source=view_post_comments&post_id=$ID'>$Comments</a> </td>
                     <td> $Date </td>
                     <td> $Views </td>
                     <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>

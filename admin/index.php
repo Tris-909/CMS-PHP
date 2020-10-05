@@ -60,6 +60,9 @@
                                 case 'edit_post':
                                     include './includes/edit_post.php';
                                     break;
+                                case 'view_post_comments':
+                                    include './includes/view_post_comments.php';
+                                    break;
                                 case 'categories':
                                     include './categories.php';
                                     break;
