@@ -1,27 +1,27 @@
 <?php 
     // Make a connection between PHP and MySQL database
     $host = getenv('DB_HOST');
-    if (isset($host)) {
+    if (!isset($host)) {
         $host = 'localhost';
     }
 
     $username = getenv('DB_USERNAME');
-    if (isset($username)) {
+    if (!isset($username)) {
         $username = 'root';
     }
 
     $password = getenv('DB_PASSWORD');
-    if (isset($password)) {
+    if (!isset($password)) {
         $password = 'root';
     }
 
     $databaseName = getenv('DB_DATABASE');
-    if (isset($databaseName)) {
+    if (!isset($databaseName)) {
         $databaseName = 'cms';
     }
 
     $port = getenv('PORT');
-    if (isset($port)) {
+    if (!isset($port)) {
         $port = 3307;
     }
 
