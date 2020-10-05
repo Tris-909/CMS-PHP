@@ -1,15 +1,11 @@
 <?php 
-    $postID = $_GET['post_id'];
+    $postID = escape($_GET['post_id']);
 
     if (isset($_GET['post_id'])) {
-        $postID = $_GET['post_id'];
-
         $getPostInfoQuery = "SELECT * FROM posts WHERE post_id=$postID";
         $getPostInfoResult = mysqli_query($connection, $getPostInfoQuery);
 
-        if (!$getPostInfoResult) {
-            echo "QUERY FAILED " . mysqli_error($connection);
-        }
+        checkQueryError($getPostInfoResult);
 
         while ($post = mysqli_fetch_assoc($getPostInfoResult)) {
             $post_title = $post['post_title'];
@@ -76,50 +72,63 @@
 
                                         // Approve A Comment 
                                         if (isset($_GET['approve'])) {
-                                            $comment_Approve_ID = $_GET['approve'];
-                                            $Approve_Query = "UPDATE comments SET comment_status='approve' WHERE comment_id=$comment_Approve_ID";
-
-                                            $ApproveResult = mysqli_query($connection, $Approve_Query);
-                                            header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
-
-                                            // checkQueryError($ApproveResult);
+                                            if (isset($_SESSION['role'])) {
+                                                if ($_SESSION['role'] == 'admin') {
+                                                    $comment_Approve_ID = escape($_GET['approve']);
+                                                    $Approve_Query = "UPDATE comments SET comment_status='approve' WHERE comment_id=$comment_Approve_ID";
+        
+                                                    $ApproveResult = mysqli_query($connection, $Approve_Query);
+                                                    checkQueryError($ApproveResult);
+        
+                                                    header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
+                                                }
+                                            }
                                         }
 
                                         // Unapprove A Comment 
                                         if (isset($_GET['unapprove'])) {
-                                            $comment_UnApprove_ID = $_GET['unapprove'];
-                                            $UnApprove_Query = "UPDATE comments SET comment_status='unapprove' WHERE comment_id=$comment_UnApprove_ID";
-
-                                            $UnApproveResult = mysqli_query($connection, $UnApprove_Query);
-                                            header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
-
-                                            // checkQueryError($ApproveResult);
+                                            if (isset($_SESSION['role'])) {
+                                                if ($_SESSION['role'] == 'admin') {
+                                                    $comment_UnApprove_ID = escape($_GET['unapprove']);
+                                                    $UnApprove_Query = "UPDATE comments SET comment_status='unapprove' WHERE comment_id=$comment_UnApprove_ID";
+        
+                                                    $UnApproveResult = mysqli_query($connection, $UnApprove_Query);
+                                                    checkQueryError($UnApproveResult);
+        
+                                                    header("Location: ./index.php?source=view_comments"); //Reload the page to see changes  
+                                                }
+                                            }
                                         }
-
 
                                         // Delete A Comment
                                         if (isset($_GET['delete'])) {
-                                            $comment_ID = $_GET['delete'];
-                                            $comment_post_id = $_GET['postID'];
-                                            $Delete_Comment_Query = "DELETE FROM comments WHERE comment_id=$comment_ID";
-                                     
-                                            //Decrease comment_count by 1 code below :
-                                            $Get_Current_Count_Query = "SELECT post_id, post_comment_count FROM posts WHERE post_id=$comment_post_id";
-                                            $GetCountResult = mysqli_query($connection, $Get_Current_Count_Query);
-                                            // checkQueryError($GetCountResult);
-                                            while ($thisCount = mysqli_fetch_assoc($GetCountResult)) {
-                                                $postID = $thisCount['post_id'];
-                                                $currentCount = $thisCount['post_comment_count'];
-                                                $newCount = $currentCount - 1; 
-                                            
-                                                $Update_New_Count_Query = "UPDATE posts SET post_comment_count=$newCount WHERE post_id=$postID";
-                                                $UpdateResult = mysqli_query($connection, $Update_New_Count_Query);
-                                                // checkQueryError($UpdateResult);
-                                            } 
+                                            if (isset($_SESSION['role'])) {
+                                                if ($_SESSION['role'] == 'admin') {
+                                                    $comment_ID = escape($_GET['delete']);
+                                                    $comment_post_id = escape($_GET['postID']);
+                                                    $Delete_Comment_Query = "DELETE FROM comments WHERE comment_id=$comment_ID";
+                                             
+                                                    //Decrease comment_count by 1 code below :
+                                                    $Get_Current_Count_Query = "SELECT post_id, post_comment_count FROM posts WHERE post_id=$comment_post_id";
+                                                    $GetCountResult = mysqli_query($connection, $Get_Current_Count_Query);
+                                                    checkQueryError($GetCountResult);
 
-                                            $DeleteCommentResult = mysqli_query($connection, $Delete_Comment_Query);
-                                            header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
-                                            // checkQueryError($DeleteCommentResult);
+                                                    while ($thisCount = mysqli_fetch_assoc($GetCountResult)) {
+                                                        $postID = $thisCount['post_id'];
+                                                        $currentCount = $thisCount['post_comment_count'];
+                                                        $newCount = $currentCount - 1; 
+                                                    
+                                                        $Update_New_Count_Query = "UPDATE posts SET post_comment_count=$newCount WHERE post_id=$postID";
+                                                        $UpdateResult = mysqli_query($connection, $Update_New_Count_Query);
+                                                        checkQueryError($UpdateResult);
+                                                    } 
+        
+                                                    $DeleteCommentResult = mysqli_query($connection, $Delete_Comment_Query);
+                                                    checkQueryError($DeleteCommentResult);
+
+                                                    header("Location: ./index.php?source=view_comments"); //Reload the page to see changes
+                                                }
+                                            }
                                         }
                                     ?>
                                 </tbody>

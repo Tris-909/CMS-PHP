@@ -47,11 +47,17 @@
 
                                         // Delete A User
                                         if (isset($_GET['delete'])) {
-                                            $user_ID = $_GET['delete'];
-                                            $Delete_Comment_Query = "DELETE FROM users WHERE user_id = $user_ID";
-                                            $DeleteCommentResult = mysqli_query($connection, $Delete_Comment_Query);
-                                            header("Location: ./index.php?source=view_users"); //Reload the page to see changes
-                                            // checkQueryError($DeleteCommentResult);
+
+                                            if (isset($_SESSION['role'])) {
+
+                                                if ($_SESSION['role'] == 'admin') {
+                                                    $user_ID = $_GET['delete'];
+                                                    $Delete_Comment_Query = "DELETE FROM users WHERE user_id = $user_ID";
+                                                    $DeleteCommentResult = mysqli_query($connection, $Delete_Comment_Query);
+                                                    header("Location: ./index.php?source=view_users"); //Reload the page to see changes
+                                                }
+                                            }
+                                            
                                         }
                                     ?>
                                 </tbody>

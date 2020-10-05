@@ -1,5 +1,6 @@
 <?php 
     if (isset($_SESSION['username'])) {
+        $ID = $_SESSION['userID'];
         $Account = $_SESSION['username'];
         $Role = $_SESSION['role'];
         $Password = $_SESSION['password'];
@@ -9,39 +10,37 @@
     }
 
     if (isset($_POST['update_profile'])) {
-        $ID = $_GET['id'];
-        $Updated_Account = $_POST['user_account'];
-        $Updated_Role = $_POST['user_role'];
-        $Updated_Password = $_POST['user_password'];
-        $Updated_FirstName = $_POST['user_firstname'];
-        $Updated_LastName = $_POST['user_lastname'];
-        $Updated_Email = $_POST['user_email'];
+        $Updated_Account = escape($_POST['user_account']);
+        $Updated_Role = escape($_POST['user_role']);
+        $Updated_Password = escape($_POST['user_password']);
+        $Updated_FirstName = escape($_POST['user_firstname']);
+        $Updated_LastName = escape($_POST['user_lastname']);
+        $Updated_Email = escape($_POST['user_email']);
 
 
         $Updated_Password = password_hash($Updated_Password, PASSWORD_BCRYPT, array('cost' => 12));
 
-    // Get the data and push it into database    
-    $Update_Query = "UPDATE users SET user_account='{$Updated_Account}', user_role='{$Updated_Role}', user_password='{$Updated_Password}', user_firstname='{$Updated_FirstName}', user_lastname='{$Updated_LastName}', user_email='{$Updated_Email}' WHERE user_id='{$ID}' "; 
-    $Result = mysqli_query($connection, $Update_Query);
+        // Get the data and push it into database    
+        $Update_Query = "UPDATE users SET user_account='{$Updated_Account}', user_role='{$Updated_Role}', user_password='{$Updated_Password}', user_firstname='{$Updated_FirstName}', user_lastname='{$Updated_LastName}', user_email='{$Updated_Email}' WHERE user_id='{$ID}' "; 
+        $Result = mysqli_query($connection, $Update_Query);
 
-    if (!$Result) {
-        die("Query Failed" . mysqli_error($connection));
-    }
+        checkQueryError($Result);
 
-    // Diretly get new data and update session to render the right information 
-    $Get_New_Info_Session = "SELECT * FROM users WHERE user_id='{$ID}'";
-    $New_Info = mysqli_query($connection, $Get_New_Info_Session);
+        // Diretly get new data and update session to render the right information 
+        $Get_New_Info_Session = "SELECT * FROM users WHERE user_id='{$ID}'";
+        $New_Info = mysqli_query($connection, $Get_New_Info_Session);
+        checkQueryError($New_Info);
 
-    while ($NewInfo = mysqli_fetch_assoc($New_Info)) {
-        $_SESSION['username'] = $NewInfo['user_account'];
-        $_SESSION['role'] = $NewInfo['user_role'];
-        $_SESSION['password'] = $NewInfo['user_password'];
-        $_SESSION['firstname'] = $NewInfo['user_firstname'];
-        $_SESSION['lastname'] = $NewInfo['user_lastname'];
-        $_SESSION['email'] = $NewInfo['user_email'];
+        while ($NewInfo = mysqli_fetch_assoc($New_Info)) {
+            $_SESSION['username'] = $NewInfo['user_account'];
+            $_SESSION['role'] = $NewInfo['user_role'];
+            $_SESSION['password'] = $NewInfo['user_password'];
+            $_SESSION['firstname'] = $NewInfo['user_firstname'];
+            $_SESSION['lastname'] = $NewInfo['user_lastname'];
+            $_SESSION['email'] = $NewInfo['user_email'];
 
-        header("Location: http://localhost:8888/admin/index.php");
-    }
+            header("Location: index.php");
+        }
     }
 ?>
 

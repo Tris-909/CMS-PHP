@@ -3,12 +3,12 @@
     if(isset($_POST['create_user'])) {
         $connection = mysqli_connect('localhost', 'root', 'root', 'cms', 3307);
 
-        $Account = $_POST['user_account'];
-        $Role = $_POST['user_role'];
-        $Password = $_POST['user_password'];
-        $FirstName = $_POST['user_firstname'];
-        $LastName = $_POST['user_lastname'];
-        $Email = $_POST['user_email'];
+        $Account = escape($_POST['user_account']);
+        $Role = escape($_POST['user_role']);
+        $Password = escape($_POST['user_password']);
+        $FirstName = escape($_POST['user_firstname']);
+        $LastName = escape($_POST['user_lastname']);
+        $Email = escape($_POST['user_email']);
 
         $Password = password_hash($Password, PASSWORD_BCRYPT, array('cost' => 12));
 
@@ -28,9 +28,7 @@
         '$Role')";
 
         $AddUserResult = mysqli_query($connection, $Add_User_Query);
-        if (!$AddUserResult) {
-            die ("QUERY FAILED .". mysqli_error($connection));
-        }
+        checkQueryError($AddUserResult);
 
         echo "
         <div class='alert alert-success' role='alert'>You have created user successfully ! <a href='index.php?source=view_users'>View Users</a> </div>

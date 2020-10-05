@@ -1,8 +1,8 @@
 <?php 
     if (isset($_POST['checkBoxArray'])) {
         foreach($_POST['checkBoxArray'] as $checkBoxValue) {
-            $CurPost_ID = $checkBoxValue;
-            $bulk_options = $_POST['options'];
+            $CurPost_ID = escape($checkBoxValue);
+            $bulk_options = escape($_POST['options']);
 
             switch($bulk_options) {
                 case 'public': 
@@ -162,12 +162,17 @@
             ?>
             <?php 
                 if (isset($_GET['delete'])) {
-                    $delete_ID = $_GET['delete'];
+                    
+                    if (isset($_SESSION['username'])) {
+                        if ($_SESSION['role'] == 'admin') {
+                            $delete_ID = escape($_GET['delete']);
 
-                    $Delete_Query = "DELETE FROM posts WHERE post_id='{$delete_ID}'";
-                    $delete_result = mysqli_query($connection, $Delete_Query);
-
-                    header("Location: index.php?source=view_all_post");
+                            $Delete_Query = "DELETE FROM posts WHERE post_id='{$delete_ID}'";
+                            $delete_result = mysqli_query($connection, $Delete_Query);
+        
+                            header("Location: index.php?source=view_all_post");
+                        }
+                    }
                 }
             ?>
         </tbody>

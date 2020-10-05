@@ -1,4 +1,3 @@
- <?php include('../includes/db.php');  ?>      
                 <!-- /.row -->
                 
                 <div class="row">
@@ -10,6 +9,7 @@
         <?php 
             $GetPostsQuery = "SELECT * FROM posts";
             $GetPostsResult = mysqli_query($connection, $GetPostsQuery);
+            checkQueryError($GetPostsResult);
             $numberOfPosts = mysqli_num_rows($GetPostsResult);
         ?>
         <div class="panel panel-primary">
@@ -37,8 +37,8 @@
         <?php 
             $GetCommentsQuery = "SELECT * FROM comments";
             $GetCommentsResult = mysqli_query($connection, $GetCommentsQuery);
+            checkQueryError($GetCommentsResult);
             $CommentsCount = mysqli_num_rows($GetCommentsResult);
-
         ?>
         <div class="panel panel-green">
             <div class="panel-heading">
@@ -65,9 +65,8 @@
         <?php 
             $GetUsersQuery = "SELECT * FROM users";
             $GetUsersResult = mysqli_query($connection, $GetUsersQuery);
+            checkQueryError($GetUsersResult);
             $UserCounts = mysqli_num_rows($GetUsersResult);
-
-
         ?>
         <div class="panel panel-yellow">
             <div class="panel-heading">
@@ -94,8 +93,8 @@
         <?php 
             $GetCategoriesQuery = "SELECT * FROM categories";
             $GetCategoriesResult = mysqli_query($connection, $GetCategoriesQuery);
+            checkQueryError($GetCategoriesResult);
             $CategoriesCount = mysqli_num_rows($GetCategoriesResult);
-
         ?>
         <div class="panel panel-red">
             <div class="panel-heading">
@@ -124,12 +123,13 @@
     //Get draft and public posts 
     $Get_Draft_Posts_Query = "SELECT * FROM posts WHERE post_status='draft'";
     $GetDraftPostsResult = mysqli_query($connection, $Get_Draft_Posts_Query);
+    checkQueryError($GetDraftPostsResult);
     $NumberOfDraftPosts = mysqli_num_rows($GetDraftPostsResult);
 
     $Get_Public_Posts_Query = "SELECT * FROM posts WHERE post_status='public'";
     $GetPublicPostsResult = mysqli_query($connection, $Get_Public_Posts_Query);
+    checkQueryError($GetPublicPostsResult);
     $NumberOfPublicPosts = mysqli_num_rows($GetPublicPostsResult);
-
 ?>
 
 

@@ -10,15 +10,15 @@
                         <div class="col-xs-6">
                             <?php 
                                 if (isset($_POST["submit"])) {
-                                    $category = $_POST["cat_title"];
+                                    $category = escape($_POST["cat_title"]);
 
                                     $InsertCatergoryQuery = "INSERT INTO categories (cat_title) VALUES ('$category')";
                                     mysqli_query($connection, $InsertCatergoryQuery);
                                 }
 
                                 if (isset($_POST["edit_submit"])) {
-                                    $edit_content = $_POST["edit_cat_title"];
-                                    $edit_ID = $_POST["ID"];
+                                    $edit_content = escape($_POST["edit_cat_title"]);
+                                    $edit_ID = escape($_POST["ID"]);
 
                                     $EditQuery = "UPDATE categories SET cat_title='$edit_content' WHERE cat_id='$edit_ID' ";
                                     mysqli_query($connection, $EditQuery);
@@ -90,10 +90,15 @@
                                     
                                     <?php 
                                         if (isset($_GET['delete'])) {
-                                            $deleteItemID = $_GET['delete'];
-                                            $DeleteQuery = "DELETE FROM categories WHERE cat_id='$deleteItemID'"; 
-                                            mysqli_query($connection, $DeleteQuery);
-                                            header("Location: categories.php");
+
+                                            if (isset($_SESSION['role'])) {
+                                                if ($_SESSION['role'] == 'admin') {
+                                                    $deleteItemID = $_GET['delete'];
+                                                    $DeleteQuery = "DELETE FROM categories WHERE cat_id='$deleteItemID'"; 
+                                                    mysqli_query($connection, $DeleteQuery);
+                                                    header("Location: categories.php");
+                                                }
+                                            }
                                         }
                                     ?>
                                 </tbody>

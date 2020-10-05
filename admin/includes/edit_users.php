@@ -1,12 +1,12 @@
 <?php 
 
     if(isset($_GET['edit'])) {
-        $connection = mysqli_connect('localhost', 'root', 'root', 'cms', 3307);
-
-        $user_id = $_GET['edit'];
+        $user_id = escape($_GET['edit']);
         $GetUserByIdQuery = "SELECT * FROM users WHERE user_id=$user_id";
         
         $GetUserResult = mysqli_query($connection, $GetUserByIdQuery);
+        checkQueryError($GetUserResult);
+
         while ($row = mysqli_fetch_assoc($GetUserResult)) {
             $Account = $row['user_account'];
             $Role = $row['user_role'];
@@ -20,13 +20,13 @@
     }
 
     if(isset($_POST['edit_user']) && isset($_GET['edit'])) {
-        $UserID = $_GET['edit'];
-        $Account = $_POST['user_account'];
-        $Role = $_POST['user_role'];
-        $Password = $_POST['user_password'];
-        $FirstName = $_POST['user_firstname'];
-        $LastName = $_POST['user_lastname'];
-        $Email = $_POST['user_email'];
+        $UserID = escape($_GET['edit']);
+        $Account = escape($_POST['user_account']);
+        $Role = escape($_POST['user_role']);
+        $Password = escape($_POST['user_password']);
+        $FirstName = escape($_POST['user_firstname']);
+        $LastName = escape($_POST['user_lastname']);
+        $Email = escape($_POST['user_email']);
 
         $Password = password_hash($Password, PASSWORD_BCRYPT, array('cost' => 12));
 
@@ -35,6 +35,8 @@
 
         $GetNewInfoQuery = "SELECT * FROM users WHERE user_id=$UserID";
         $GetNewInfoResult = mysqli_query($connection, $GetNewInfoQuery);
+        checkQueryError($GetNewInfoResult);
+
         while ($NewInfo = mysqli_fetch_assoc($GetNewInfoResult)) {
             $NewRole = $NewInfo['user_role'];
 

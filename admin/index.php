@@ -1,5 +1,6 @@
 <?php 
     include('../includes/db.php');
+    include('./functions.php');
 ?>
 <?php 
     session_start();
@@ -68,9 +69,6 @@
                                     break;
                                 case 'view_comments':
                                     include './includes/comments.php';
-                                    break;
-                                case 'add_comment':
-                                    include './includes/add_comment.php';
                                     break;
                                 case 'view_users':
                                     include './includes/users.php';

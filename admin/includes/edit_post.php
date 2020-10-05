@@ -1,54 +1,57 @@
 <?php 
     if (isset($_GET['edit']) && isset($_POST['edit_post'])) {
-        $post_id = $_GET['edit'];
-        $post_category_id = $_POST['post_category_id'];
-        $post_title = $_POST['title'];
-        $post_author = $_POST['post_author'];
-        $post_status = $_POST['post_status'];
-
-        $post_image = $_FILES['image']['name'];
-        $post_image_temp = $_FILES['image']['tmp_name'];
-
-        $post_tags = $_POST['post_tags'];
-        $post_content = $_POST['post_content'];
-
-        move_uploaded_file($post_image_temp, "./images/$post_image");
+        if (isset($_SESSION['role'])) {
+            if ($_SESSION['role'] == 'admin') {
+                $post_id = escape($_GET['edit']);
+                $post_category_id = escape($_POST['post_category_id']);
+                $post_title = escape($_POST['title']);
+                $post_author = escape($_POST['post_author']);
+                $post_status = escape($_POST['post_status']);
         
-        $Edit_Query = "UPDATE posts SET 
-        post_title='{$post_title}',
-        post_category_id='{$post_category_id}', 
-        post_author='{$post_author}',
-        post_status='{$post_status}',
-        post_image='./images/{$post_image}',
-        post_tags='{$post_tags}',
-        post_content='{$post_content}' WHERE
-        post_id='{$post_id}'
-        ";
-
-        if (empty( $post_image) ) {
-            $Edit_Query = "UPDATE posts SET 
-            post_title='{$post_title}',
-            post_category_id='{$post_category_id}', 
-            post_author='{$post_author}',
-            post_status='{$post_status}',
-            post_tags='{$post_tags}',
-            post_content='{$post_content}' WHERE
-            post_id='{$post_id}'
-            ";
+                $post_image = $_FILES['image']['name'];
+                $post_image_temp = $_FILES['image']['tmp_name'];
+        
+                $post_tags = escape($_POST['post_tags']);
+                $post_content = escape($_POST['post_content']);
+        
+                move_uploaded_file($post_image_temp, "./images/$post_image");
+                
+                $Edit_Query = "UPDATE posts SET 
+                post_title='{$post_title}',
+                post_category_id='{$post_category_id}', 
+                post_author='{$post_author}',
+                post_status='{$post_status}',
+                post_image='./images/{$post_image}',
+                post_tags='{$post_tags}',
+                post_content='{$post_content}' WHERE
+                post_id='{$post_id}'
+                ";
+        
+                if (empty( $post_image) ) {
+                    $Edit_Query = "UPDATE posts SET 
+                    post_title='{$post_title}',
+                    post_category_id='{$post_category_id}', 
+                    post_author='{$post_author}',
+                    post_status='{$post_status}',
+                    post_tags='{$post_tags}',
+                    post_content='{$post_content}' WHERE
+                    post_id='{$post_id}'
+                    ";
+                }
+        
+                mysqli_query($connection, $Edit_Query);
+        
+                echo "
+                <div class='alert alert-success' role='alert'>Edit post successfully ! <a href='../post.php?id={$post_id}'>View This Post</a> </div>
+                ";
+            }
         }
-
-        mysqli_query($connection, $Edit_Query);
-
-        echo "
-        <div class='alert alert-success' role='alert'>Edit post successfully ! <a href='../post.php?id={$post_id}'>View This Post</a> </div>
-        ";
     }
-
 ?>
 
 <form action="" method="POST" enctype="multipart/form-data">
     <?php 
-        $id_post = $_GET['edit'];
+        $id_post = escape($_GET['edit']);
         $Get_info_query = "SELECT * FROM posts WHERE post_id='{$id_post}'";
 
         $result = mysqli_query($connection, $Get_info_query);
