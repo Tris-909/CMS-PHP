@@ -28,6 +28,12 @@
     $connection = mysqli_connect($host, $username, $password, $databaseName, $port);
 
     if (!$connection) {
+        echo $host;
+        echo $username;
+        echo $password;
+        echo $databaseName;
+        echo $port;
+
         echo "We are NOT connected";
     }
 
