@@ -14,13 +14,18 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <?php 
-                        $query = "SELECT * FROM categories";
-                        $result = mysqli_query($connection, $query);
+                        // $query = "SELECT * FROM categories";
+                        // $result = mysqli_query($connection, $query);
 
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $title = $row["cat_title"];
-                            echo "<li><a href='#'>{$title}</a></li>";
-                        }
+                        // while ($row = mysqli_fetch_assoc($result)) {
+                        //     $title = $row["cat_title"];
+                        //     echo "<li><a href='#'>{$title}</a></li>";
+                        // }
+                        echo "
+                            <li>
+                                <a href='../contactPage.php'> CONTACT </a>
+                            </li>
+                        ";
                     ?>
                     <?php 
 
@@ -28,7 +33,7 @@
                             if ($_SESSION['role'] == 'admin') {
                                 echo "
                                 <li>
-                                    <a href='admin/index.php'>Admin</a>
+                                    <a href='admin/index.php'> ADMIN </a>
                                 </li>
                                 ";
                             }

@@ -1,5 +1,6 @@
 <?php 
-    include("/Users/USER/Desktop/CMS/CMS_TEMPLATE/includes/db.php");
+    include("db.php");
+    include("admin/functions.php");
     session_start();
 ?>
 
