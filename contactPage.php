@@ -8,7 +8,12 @@
             $headers = "FROM: $gmail" . "\r\n";
 
 
-            mail("tranminhtri9090@gmail.com", $subject, $body, $headers);
+            $mail = mail("tranminhtri9090@gmail.com", $subject, wordwrap($body, 75), $headers);
+            if($mail){
+                echo "Thank you for using our mail form";
+              } else {
+                echo "Mail sending failed."; 
+            }
         }
     ?>
 
