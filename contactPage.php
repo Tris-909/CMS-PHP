@@ -5,14 +5,23 @@
             $gmail =  escape($_POST['gmail']);
             $subject = escape($_POST['subject']);
             $body = escape($_POST['body']);
-            $headers = "FROM: $gmail" . "\r\n";
 
+            $headers  = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+            $headers .= "From: ". $gmail. "\r\n";
+            $headers .= "Reply-To: ". $gmail. "\r\n";
+            $headers .= "X-Mailer: PHP/" . phpversion();
+            $headers .= "X-Priority: 1" . "\r\n";
 
-            $mail = mail("tranminhtri9090@gmail.com", $subject, wordwrap($body, 75), $headers);
+            $mail = mail('tranminhtri9090@gmail.com', $subject, wordwrap($body, 75), $headers);
             if($mail){
-                echo "Thank you for using our mail form";
+                echo "
+                <h3 class='text-center alert alert-danger' role='alert'>Send mail successfully !</h3>
+                ";
               } else {
-                echo "Mail sending failed."; 
+                echo "
+                <h3 class='text-center alert alert-danger' role='alert'>Send Mail Failed, please try again</h3>
+                ";
             }
         }
     ?>
