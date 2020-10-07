@@ -1,4 +1,6 @@
 <?php 
+    include('./includes/deleteModal.php');
+
     if (isset($_POST['checkBoxArray'])) {
         foreach($_POST['checkBoxArray'] as $checkBoxValue) {
             $CurPost_ID = escape($checkBoxValue);
@@ -155,7 +157,7 @@
                     <td> $Views </td>
                     <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
                     <td> <a href='../post.php?id=$ID'> View Post </a> </td>
-                    <td> <a onClick=\"javascript: return confirm('Are you sure you want to delete this post ?');\" href='index.php?source=view_all_post&delete={$ID}'> Delete </a> </td>
+                    <td> <a rel='$ID' href='javascript:void(0)' class='delete_link'> Delete </a> </td>
                 </tr>
                 ";
             }
@@ -178,3 +180,16 @@
         </tbody>
     </table>
 </form>
+<script>
+    $(document).ready(function() {
+        $(".delete_link").on('click', function() {
+            var id = $(this).attr("rel");
+
+            var delete_URL ="index.php?source=view_all_post&delete="+ id + " ";
+
+            $(".modal_delete_link").attr("href", delete_URL);
+            $("#myModal").modal("show")
+        });
+    });
+
+</script>

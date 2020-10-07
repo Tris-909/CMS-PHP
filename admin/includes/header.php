@@ -35,6 +35,9 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
