@@ -39,6 +39,13 @@
                     }
 
                     $UsedQuery = "SELECT * FROM posts WHERE post_status='public' LIMIT $page_1, 3";
+                    
+                    if (isset($_SESSION['role'])) {
+                        if ($_SESSION['role'] == 'admin') {
+                            // If you are admin, you are allowed to see both public and draft posts
+                            $UsedQuery = "SELECT * FROM posts LIMIT $page_1, 3";
+                        }
+                    }
 
                     $postRead = mysqli_query($connection, $UsedQuery);
                     $count = mysqli_num_rows($postRead);
@@ -83,16 +90,22 @@
         <!-- /.row -->
         <nav>
             <ul class="pagination">
-              <li>
-                <a href="index.php?page=1" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
+
               <?php 
                 $GetNumberOfPostsQuery = "SELECT * FROM posts WHERE post_status='public'";
                 $GetNumberOfPostResult = mysqli_query($connection, $GetNumberOfPostsQuery);
                 $NumberOfPosts = mysqli_num_rows($GetNumberOfPostResult);
                 $NumberOfPages = ceil($NumberOfPosts/3);
+
+                if ($NumberOfPages > 1) {
+                    echo "
+                    <li>
+                        <a href='index.php?page=1' aria-label='Previous'>
+                          <span aria-hidden='true'>&laquo;</span>
+                        </a>
+                    </li>
+                    ";
+                } 
 
                 if (isset($_GET['page'])) {
                     for ($i = 1; $i <= $NumberOfPages; $i++) {
@@ -119,12 +132,17 @@
                         }
                     }
                 }
+
+                if ($NumberOfPages > 1) {
+                    echo "
+                    <li>
+                        <a href='index.php?page=<?php echo $NumberOfPages; ?>' aria-label='Next'>
+                          <span aria-hidden='true'>&raquo;</span>
+                        </a>
+                    </li>
+                    ";
+                } 
               ?>
-              <li>
-                <a href="index.php?page=<?php echo $NumberOfPages; ?>" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
             </ul>
         </nav>
         <hr>
