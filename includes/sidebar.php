@@ -35,7 +35,15 @@
                             <div class='input-group'>
                                 <label for='password'>Password :</label>
                                 <input name='password' type='password' class='form-control' placeholder='Password' required>
-                            </div>
+                            </div>";
+                        
+                        if (isset($_SESSION['warning'])) {
+                            $log_in_failed_message = $_SESSION['warning'];
+                            echo "
+                            <h4 class='text-center alert alert-danger' role='alert'> $log_in_failed_message </h4>
+                            ";
+                        }
+                        echo "    
                             <br>
                             <input type='submit' name='login' class='btn btn-primary'>
                         </div>

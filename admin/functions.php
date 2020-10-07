@@ -46,7 +46,12 @@
             header("Location: ../admin/index.php");
 
         } else {
+            $login_failed_message = 'Wrong Username or Password, please try again !';
+            
+            $_SESSION['warning'] = $login_failed_message;
+            
             header("Location: ../index.php");
+            
         }
     }
 

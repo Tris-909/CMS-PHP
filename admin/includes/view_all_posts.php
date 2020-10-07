@@ -155,9 +155,9 @@
                     <td> <a href='index.php?source=view_post_comments&post_id=$ID'>$Comments</a> </td>
                     <td> $Date </td>
                     <td> $Views </td>
-                    <td> <a href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
-                    <td> <a href='../post.php?id=$ID'> View Post </a> </td>
-                    <td> <a rel='$ID' href='javascript:void(0)' class='delete_link'> Delete </a> </td>
+                    <td> <a class='btn btn-info' href='index.php?source=edit_post&edit={$ID}'> Edit </a> </td>
+                    <td> <a class='btn btn-info' href='../post.php?id=$ID'> View Post </a> </td>
+                    <td> <a class='btn btn-danger' rel='$ID' href='javascript:void(0)' class='delete_link'> Delete </a> </td>
                 </tr>
                 ";
             }

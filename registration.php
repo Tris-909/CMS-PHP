@@ -2,20 +2,27 @@
 
     <?php 
         if (isset($_POST['submit'])) {
-            $username = $_POST['username'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            //! take the data from FORM
+            $username = escape($_POST['username']);
+            $email = escape($_POST['email']);
+            $password = escape($_POST['password']);
+            $formpassword = $password;
 
+            //! check if the data is empty or not
             if (!empty($username) && !empty($email) && !empty($password) ) {
-                $username = mysqli_escape_string($connection, $username);
-                $email = mysqli_escape_string($connection, $email);
-                $password = mysqli_escape_string($connection, $password);
-    
+                
+                //! hash the current input password and get it to compare with the password in databases
                 $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
     
+                //! Check if the username has already existed, if yes, then refuse to create a new account
                 if (Is_User_Name_Existed($username)) {
-                    $message = 'username have already been taken, please choose another Username';
+                    
+                    //! Failed
+                    $message = 'Username have already been taken, please choose another username';
+                
                 } else {
+                    
+                    //! Success
                     $CreateUserQuery = "INSERT INTO users (user_account, user_password, user_email, user_role) VALUES ('{$username}', '{$password}', '{$email}', 'subcriber')";
                     $CreateUserResult = mysqli_query($connection, $CreateUserQuery);
                     checkQueryError($CreateUserResult);
@@ -26,7 +33,7 @@
                 }
 
             } else {
-                $message = "Field can't be empty";
+                $message = "Fields can't be empty";
             }
         }
     ?>
@@ -64,15 +71,36 @@
 
                         <div class="form-group">
                             <label for="username" class="sr-only">username</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">
+                            <input 
+                                autocomplete="on"
+                                value="<?php echo isset($username) ? $username : '' ?>"
+                                type="text" 
+                                name="username" 
+                                id="username" 
+                                class="form-control" 
+                                placeholder="Enter Desired Username">
                         </div>
                          <div class="form-group">
                             <label for="email" class="sr-only">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com">
+                            <input 
+                                autocomplete="on"
+                                value="<?php echo isset($email) ? $email : '' ?>"
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                class="form-control" 
+                                placeholder="somebody@example.com">
                         </div>
                          <div class="form-group">
                             <label for="password" class="sr-only">Password</label>
-                            <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                            <input 
+                                autocomplete="on"
+                                value="<?php echo isset($formpassword) ? $formpassword : '' ?>"
+                                type="password" 
+                                name="password" 
+                                id="key" 
+                                class="form-control" 
+                                placeholder="Password">
                         </div>
                 
                         <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
