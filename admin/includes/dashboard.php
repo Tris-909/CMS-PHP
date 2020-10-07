@@ -6,12 +6,6 @@
                     <small> <?php echo $_SESSION['firstname']; echo " "; echo $_SESSION['lastname']; ?> </small>
                 </h1>   
     <div class="col-lg-3 col-md-6">
-        <?php 
-            $GetPostsQuery = "SELECT * FROM posts";
-            $GetPostsResult = mysqli_query($connection, $GetPostsQuery);
-            checkQueryError($GetPostsResult);
-            $numberOfPosts = mysqli_num_rows($GetPostsResult);
-        ?>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -19,7 +13,7 @@
                         <i class="fa fa-file-text fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                  <div class='huge'><?php echo $numberOfPosts; ?></div>
+                  <div class='huge'><?php echo getRecords('posts'); ?></div>
                         <div>Posts</div>
                     </div>
                 </div>
@@ -34,12 +28,6 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <?php 
-            $GetCommentsQuery = "SELECT * FROM comments";
-            $GetCommentsResult = mysqli_query($connection, $GetCommentsQuery);
-            checkQueryError($GetCommentsResult);
-            $CommentsCount = mysqli_num_rows($GetCommentsResult);
-        ?>
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
@@ -47,7 +35,7 @@
                         <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                     <div class='huge'><?php echo $CommentsCount; ?></div>
+                     <div class='huge'><?php echo getRecords('comments'); ?></div>
                       <div>Comments</div>
                     </div>
                 </div>
@@ -62,12 +50,6 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <?php 
-            $GetUsersQuery = "SELECT * FROM users";
-            $GetUsersResult = mysqli_query($connection, $GetUsersQuery);
-            checkQueryError($GetUsersResult);
-            $UserCounts = mysqli_num_rows($GetUsersResult);
-        ?>
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 <div class="row">
@@ -75,7 +57,7 @@
                         <i class="fa fa-user fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                    <div class='huge'><?php echo $UserCounts; ?></div>
+                    <div class='huge'><?php echo getRecords('users'); ?></div>
                         <div> Users</div>
                     </div>
                 </div>
@@ -90,12 +72,6 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6">
-        <?php 
-            $GetCategoriesQuery = "SELECT * FROM categories";
-            $GetCategoriesResult = mysqli_query($connection, $GetCategoriesQuery);
-            checkQueryError($GetCategoriesResult);
-            $CategoriesCount = mysqli_num_rows($GetCategoriesResult);
-        ?>
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -103,7 +79,7 @@
                         <i class="fa fa-list fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class='huge'><?php echo $CategoriesCount; ?></div>
+                        <div class='huge'><?php echo getRecords('categories'); ?></div>
                          <div>Categories</div>
                     </div>
                 </div>
@@ -142,7 +118,11 @@
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Overall', 'Posts', 'Categories', 'Users', 'Comments'],
-          ['2020', <?php echo $numberOfPosts; ?>, <?php echo $CategoriesCount; ?>, <?php echo $UserCounts; ?>, <?php echo $CommentsCount; ?>],
+          ['2020', 
+          <?php echo getRecords('posts'); ?>, 
+          <?php echo getRecords('categories'); ?>, 
+          <?php echo getRecords('users'); ?>, 
+          <?php echo getRecords('comments'); ?>],
         ]);
 
         var options = {
@@ -160,7 +140,7 @@
       function drawAnotherChart() {
         var postsData = google.visualization.arrayToDataTable([
             ['Draft/Public Posts', 'Draft', 'Public', 'Total Posts'],
-            ['2020', <?php echo $NumberOfDraftPosts; ?>, <?php echo  $NumberOfPublicPosts; ?>, <?php echo $numberOfPosts; ?>]
+            ['2020', <?php echo $NumberOfDraftPosts; ?>, <?php echo  $NumberOfPublicPosts; ?>, <?php echo getRecords('posts'); ?>]
         ]);
 
         var PostsOptions = {

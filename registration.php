@@ -1,5 +1,4 @@
-<?php  include "includes/db.php"; ?>
- <?php  include "includes/header.php"; ?>
+<?php  include "includes/header.php"; ?>
 
     <?php 
         if (isset($_POST['submit'])) {
@@ -14,14 +13,18 @@
     
                 $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
     
-                $CreateUserQuery = "INSERT INTO users (user_account, user_password, user_email, user_role) VALUES ('{$username}', '{$password}', '{$email}', 'subcriber')";
-                $CreateUserResult = mysqli_query($connection, $CreateUserQuery);
+                if (Is_User_Name_Existed($username)) {
+                    $message = 'username have already been taken, please choose another Username';
+                } else {
+                    $CreateUserQuery = "INSERT INTO users (user_account, user_password, user_email, user_role) VALUES ('{$username}', '{$password}', '{$email}', 'subcriber')";
+                    $CreateUserResult = mysqli_query($connection, $CreateUserQuery);
+                    checkQueryError($CreateUserResult);
     
-                if(!$CreateUserResult) {
-                    die("Query Failed ". mysqli_error($connection));
-                }    
+                    $success = "Your Account have been created.";
+                    $success2 = "Click here";
+                    $success3 = "to sign in";
+                }
 
-                
             } else {
                 $message = "Field can't be empty";
             }
@@ -44,9 +47,17 @@
                 <h1>Register</h1>
                     <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
                         <?php 
-                         if (isset($message)) {
+                        if (isset($message)) {
                             echo "
                             <h3 class='text-center alert alert-danger' role='alert'>$message</h3>
+                            ";
+                        }
+
+                        if (isset($success)) {
+                            echo "
+                            <h3 class='text-center alert alert-success' role='alert'>$success
+                                <a href='index.php'>$success2</a> $success3
+                            </h3>
                             ";
                         }
                         ?>
