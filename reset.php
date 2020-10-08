@@ -14,18 +14,16 @@
             header("Location: index.php");
         } else {
             
-            if (isset($_POST['recover_password'])) {
+            if (isset($_POST['recover_password']) && isset($_POST['ConfirmPassword'])) {
                 $new_password = escape($_POST['password']);
                 $confirm_password = escape($_POST['ConfirmPassword']);
         
                 if ($new_password != $confirm_password) {
                     $failed_message = "Your Password and confirm password are not matched";
                 } else {
-        
-        
                     $password = password_hash($new_password, PASSWORD_BCRYPT, array('cost' => 12));
         
-                    $Reset_Password_Query = "UPDATE users SET user_password = '$password' WHERE user_email='$email' AND token='$token' ";
+                    $Reset_Password_Query = "UPDATE users SET user_password = '$password', token='' WHERE user_email='$email' AND token='$token' ";
                     $ResetResult = mysqli_query($connection, $Reset_Password_Query);
                     checkQueryError($ResetResult);
         
