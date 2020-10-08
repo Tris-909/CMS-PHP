@@ -1,6 +1,18 @@
-<?php  include "includes/db.php"; ?>
-<?php  include "includes/header.php"; ?>
 <?php 
+    //! Code from PHPMailer Github
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+
+    include "includes/db.php"; 
+?>
+
+<?php include "includes/header.php"; ?>
+
+<?php 
+    require './vendor/autoload.php';
+    require './classes/config.php';
+
     if (isset($_SESSION['username']) || (!isset($_GET['forgot'])) ) {
         header("Location: ./index.php");
     }
@@ -15,8 +27,44 @@
         if (Is_Email_Existed($email)) {
             $Add_Token_Query = "UPDATE users SET token='$token' WHERE user_email='$email' ";
             mysqli_query($connection, $Add_Token_Query);
+            
+            //! All of the code below in this red comment is from PHPMAILER Github Docs
+            $mail = new PHPMailer(true);
+            
+            try {
+                //Server settings
+                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+                $mail->isSMTP();                                            // Send using SMTP
+                $mail->Host       = Config::SMTP_HOST;                    // Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+                $mail->Username   = Config::SMTP_USER;                     // SMTP username
+                $mail->Password   = Config::SMTP_PASSWORD;                 // SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+                $mail->Port       = Config::SMTP_PORT;                     // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+                $mail->CharSet='UTF-8'; // Allow text to display in other languages 
+
+                //Recipients
+                $mail->setFrom('tranminhtri9090@gmail.com', 'TrisTran');
+                $mail->addAddress($email);     // Add a recipient
+            
+                // Content
+                $mail->isHTML(true);                                  // Set email format to HTML
+                $mail->Subject = 'Reset your password in CMS';
+                $mail->Body    = '<p>Please 
+                <a href="http://localhost:8888/reset.php?email='.$email.'&token='.$token.' "> click here </a>
+                to reset your password</p>';
+                
+                $mail->send();
+                echo 'Message has been sent';
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+            //! End of PHPMAILER CODE
+            
         }
     }
+
+
 ?>
 
 <!-- Page Content -->
