@@ -33,7 +33,6 @@
             
             try {
                 //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
                 $mail->isSMTP();                                            // Send using SMTP
                 $mail->Host       = Config::SMTP_HOST;                    // Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
@@ -55,7 +54,8 @@
                 to reset your password</p>';
                 
                 $mail->send();
-                echo 'Message has been sent';
+                $success = true;
+
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
@@ -77,15 +77,10 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="text-center">
-
-
                                 <h3><i class="fa fa-lock fa-4x"></i></h3>
                                 <h2 class="text-center">Forgot Password?</h2>
                                 <p>You can reset your password here.</p>
                                 <div class="panel-body">
-
-
-
 
                                     <form id="register-form" role="form" autocomplete="off" class="form" method="post">
 
@@ -95,6 +90,17 @@
                                                 <input id="email" name="email" placeholder="email address" class="form-control"  type="email">
                                             </div>
                                         </div>
+                                        <?php 
+                                            if (isset($success)) {
+                                                if ($success === true) {
+                                                    echo "
+                                                    <h3 class='text-center alert alert-success' role='alert'>
+                                                        Email has been sent successfully, please check your email
+                                                    </h3>
+                                                    ";
+                                                }
+                                            }
+                                        ?>
                                         <div class="form-group">
                                             <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
                                         </div>
