@@ -78,6 +78,10 @@
 									?>
 
 									<div class="form-group">
+										<a target='_blank' href='./forgot_password.php?forgot=<?php echo uniqid(true); ?>'> Forgotten password ? </a>
+									</div>
+
+									<div class="form-group">
 
 										<input name="login" class="btn btn-lg btn-primary btn-block" value="Login" type="submit">
 									</div>

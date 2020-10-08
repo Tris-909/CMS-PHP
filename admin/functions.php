@@ -68,6 +68,19 @@
         }
     }
 
+    function Is_Email_Existed($Email) {
+        global $connection;
+        $Check_Query = "SELECT * FROM users WHERE user_email='$Email'";
+        $Result = mysqli_query($connection, $Check_Query);
+        $Count = mysqli_num_rows($Result);
+
+        if ($Count != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function ifItMethod($method=null) {
         if ($_SERVER['REQUEST_METHOD '] == strtoupper($method)) {
             return true;
