@@ -8,42 +8,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../index.php">CMS</a>
+                <a class="navbar-brand" href="../index">CMS</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <?php 
-                        // $query = "SELECT * FROM categories";
-                        // $result = mysqli_query($connection, $query);
-
-                        // while ($row = mysqli_fetch_assoc($result)) {
-                        //     $title = $row["cat_title"];
-                        //     echo "<li><a href='#'>{$title}</a></li>";
-                        // }
                         echo "
                             <li>
-                                <a href='../contactPage.php'> CONTACT </a>
+                                <a href='../contactPage'> Contact </a>
                             </li>
                         ";
                     ?>
                     <?php 
-
-                        if (isset($_SESSION['username'])) {
-                            if ($_SESSION['role'] == 'admin') {
-                                echo "
-                                <li>
-                                    <a href='admin/index.php'> ADMIN </a>
-                                </li>
-                                ";
-                            }
+                        if (isAdmin()) {
+                            echo "
+                            <li>
+                                <a href='admin/index.php'> ADMIN </a>
+                            </li>
+                            ";
                         }
                     ?>
                     <?php 
-                        if (empty($_SESSION['username'])) {
+                        if (!isLogIn()) {
                             echo "
                             <li>
-                                <a href='./registration.php'>Sign Up</a>
+                                <a href='./registration'>Sign Up</a>
+                            </li>
+                            <li>
+                                <a href='./login.php'>Login</a>
                             </li>
                             ";
                         }
@@ -51,21 +44,21 @@
 
                 </ul>
                 <?php 
-                    if (isset($_SESSION['username'])) {
-                        echo "
-                        <ul class='nav navbar-nav navbar-right'>
-                           <li class='dropdown'>
-                             <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'> {$_SESSION['username']} <span class='caret'></span></a>
-                             <ul class='dropdown-menu' role='menu'>
-                               <li><a href='#'>Profile</a></li>
-                               <li><a href='postAuthor.php'>My Posts</a></li>
-                               <li class='divider'></li>
-                               <li><a href='./includes/logout.php'>Log Out</a></li>
-                             </ul>
-                           </li>
-                        </ul>
-                        ";
-                    }
+                if (isLogIn()) {
+                    echo "
+                    <ul class='nav navbar-nav navbar-right'>
+                       <li class='dropdown'>
+                         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'> {$_SESSION['username']} <span class='caret'></span></a>
+                         <ul class='dropdown-menu' role='menu'>
+                           <li><a href='#'>Profile</a></li>
+                           <li><a href='postAuthor.php'>My Posts</a></li>
+                           <li class='divider'></li>
+                           <li><a href='./includes/logout.php'>Log Out</a></li>
+                         </ul>
+                       </li>
+                    </ul>
+                    ";
+                }
                 ?>
                  
             </div>

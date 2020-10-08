@@ -1,6 +1,11 @@
 <?php  include "includes/header.php"; ?>
 
     <?php 
+        //! user who have logged in can't access to this page
+        if (isset($_SESSION['username'])) {
+            header('Location: ./index.php');
+        }
+
         if (isset($_POST['submit'])) {
             //! take the data from FORM
             $username = escape($_POST['username']);

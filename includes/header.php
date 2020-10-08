@@ -3,7 +3,7 @@
     ini_set('display_errors', 'On');
     set_error_handler("var_dump");
     include("db.php");
-    include("admin/functions.php");
+    include("./admin/functions.php");
     session_start();
 ?>
 
@@ -21,11 +21,11 @@
     <title>Blog Home - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/blog-home.css" rel="stylesheet">
-    <link href="css/loader.css" rel="stylesheet">
+    <link href="../css/blog-home.css" rel="stylesheet">
+    <link href="../css/loader.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -15,45 +15,7 @@
                     </form>
                     <!-- /.input-group -->
                 </div>
-
-
-                <!-- Login  -->
-                <?php 
-                    if (isset($_SESSION['username'])) {
-                        echo "";
-                    } else {
-                        echo "
-                        <div class='well'>
-                        <h3>Login</h3>
-                        <form action='./includes/login.php' method='POST'>
-                        <div class='input-group'>
-                            <div class='input-group'>
-                                <label for='account'>Account :</label>
-                                <input name='account' type='text' class='form-control' placeholder='Account' required>
-                            </div>
-                            <br>
-                            <div class='input-group'>
-                                <label for='password'>Password :</label>
-                                <input name='password' type='password' class='form-control' placeholder='Password' required>
-                            </div>";
-                        
-                        if (isset($_SESSION['warning'])) {
-                            $log_in_failed_message = $_SESSION['warning'];
-                            echo "
-                            <h4 class='text-center alert alert-danger' role='alert'> $log_in_failed_message </h4>
-                            ";
-                        }
-                        echo "    
-                            <br>
-                            <input type='submit' name='login' class='btn btn-primary'>
-                        </div>
-                        </form>
-                        </div>
-                        ";
-                    }
-                ?>
-
-
+                
                 <!-- Blog Categories Well -->
 
                 <div class="well">

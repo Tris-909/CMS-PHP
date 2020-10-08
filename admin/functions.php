@@ -50,7 +50,7 @@
             
             $_SESSION['warning'] = $login_failed_message;
             
-            header("Location: ../index.php");
+            header("Location: ../login.php");
             
         }
     }
@@ -66,5 +66,29 @@
         } else {
             return false;
         }
+    }
+
+    function ifItMethod($method=null) {
+        if ($_SERVER['REQUEST_METHOD '] == strtoupper($method)) {
+            return true;
+        }
+        return false;
+    }
+
+    function isLogIn() {
+        if (isset($_SESSION['username'])) {
+            return true;
+        }
+        return false;
+    }
+
+    function isAdmin() {
+        if (isset($_SESSION['role'])) {
+            if ($_SESSION['role'] == 'admin') {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 ?>
