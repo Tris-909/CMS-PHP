@@ -42,9 +42,24 @@
 
                 
                 <!-- Side Widget Well -->
-                <div class="well">
-                    <h4>Side Widget Well</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-                </div>
+                <?php 
+                    if (isset($_SESSION['username'])) {
+                        $username = $_SESSION['username'];
+                        
+                        //! Hide the Well if the user is already on the add_post page on front-side
+                        $link = $_SERVER['REQUEST_URI']; 
+
+                        if ($link != '/add_post.php') {
+                            echo "
+                            <div class='well'>
+                                <h4>Hi $username</h4>
+                                <p>Do you want to share something ?</p>
+                                <a href='add_post.php'> <div class='btn btn-info' >  Write some blogs </div> </a>
+                            </div>
+                            ";
+                        }
+                    }
+                ?>
+
 
             </div>

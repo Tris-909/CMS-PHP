@@ -16,7 +16,7 @@
             <div class="col-md-8">
                 <!-- First Blog Post -->
                 <?php 
-                    $query = "SELECT * FROM posts WHERE post_status='public' ORDER BY post_id asc";
+                    $query = "SELECT * FROM posts WHERE post_status='public' ORDER BY post_id desc";
                     $UsedQuery = $query;
 
                     // PAGINATION
@@ -32,11 +32,11 @@
                         $page_1 = ($page * 3) - 3;
                     }
 
-                    $UsedQuery = "SELECT * FROM posts WHERE post_status='public' LIMIT $page_1, 3";
+                    $UsedQuery = "SELECT * FROM posts WHERE post_status='public' ORDER BY post_id desc LIMIT $page_1, 3 ";
                     
                     if (isset($_POST["submit"])) {
                         $search = $_POST['search'];
-                        $Squery = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' AND post_status='public' LIMIT $page_1, 3";
+                        $Squery = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' AND post_status='public' ORDER BY post_id LIMIT $page_1, 3";
                         $UsedQuery = $Squery;
                     }
 
