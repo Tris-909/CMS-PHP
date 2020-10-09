@@ -1,105 +1,62 @@
 <?php 
     include('./includes/db.php');
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<?php 
+    include('./includes/header.php');
+?>
+<?php 
+    include('./includes/navigation.php');
+?>
 
-<head>
+<?php 
+    if (isset($_POST['like'])) {
+        $post_id = $_POST['post_id'];
+        $user_id = $_POST['user_id'];
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        $Select_post_query = "SELECT * FROM posts WHERE post_id = $post_id";
+        $PostResult = mysqli_query($connection, $Select_post_query);
+        checkQueryError($PostResult);
 
-    <title>Blog Post</title>
+        while ($post = mysqli_fetch_assoc($PostResult)) {
+            $currentlike = $post['likes'];
+            $newLikeCount = $currentlike + 1;
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+            $Update_Like_Count_Query = "UPDATE posts SET likes = $newLikeCount WHERE post_id = $post_id";
+            $UpdateLikeResult = mysqli_query($connection, $Update_Like_Count_Query);
+            checkQueryError($UpdateLikeResult);
 
-    <!-- Custom CSS -->
-    <link href="css/blog-post.css" rel="stylesheet">
+            $create_docs_for_likes_query = "INSERT INTO likes (user_id, post_id) VALUES ($user_id, $post_id)";
+            $InsertLikesResult = mysqli_query($connection, $create_docs_for_likes_query);
+            checkQueryError($InsertLikesResult);
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+            header("Location: ./post.php?id=$post_id");
+        }
+    }
 
-</head>
+    if (isset($_POST['unlike'])) {
+        $post_id = $_POST['post_id'];
+        $user_id = $_POST['user_id'];
 
-<body>
+        $Select_post_query = "SELECT * FROM posts WHERE post_id = $post_id";
+        $PostResult = mysqli_query($connection, $Select_post_query);
+        checkQueryError($PostResult);
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.php">CMS</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <?php 
-                        $query = "SELECT * FROM categories";
-                        $result = mysqli_query($connection, $query);
+        while ($post = mysqli_fetch_assoc($PostResult)) {
+            $currentlike = $post['likes'];
+            $newLikeCount = $currentlike -1;
 
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $title = $row["cat_title"];
-                            echo "<li><a href='#'>{$title}</a></li>";
-                        }
-                    ?>
+            $Update_Like_Count_Query = "UPDATE posts SET likes = $newLikeCount WHERE post_id = $post_id";
+            $UpdateLikeResult = mysqli_query($connection, $Update_Like_Count_Query);
+            checkQueryError($UpdateLikeResult);
 
-                    <?php 
-                        session_start();
-                        if (isset($_SESSION['role'])) {
-                            $role = $_SESSION['role'];
-                            $CurrentPostID = $_GET['id'];
-                            if ($role == 'admin') {
-                                echo "
-                                <li>
-                                    <a href='admin/index.php'>Admin</a>
-                                </li>
-                                ";
-                            }
-                            echo "
-                                <li>
-                                <a href='./admin/index.php?source=edit_post&edit=$CurrentPostID'>Edit this post</a>
-                                </li>
-                            ";
-                        }        
-                    ?>
-                </ul>
-                <?php 
-                    if (isset($_SESSION['username'])) {
-                        echo "
-                        <ul class='nav navbar-nav navbar-right'>
-                           <li class='dropdown'>
-                             <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'> {$_SESSION['username']} <span class='caret'></span></a>
-                             <ul class='dropdown-menu' role='menu'>
-                               <li><a href='#'>Profile</a></li>
-                               <li><a href='#'>My Posts</a></li>
-                               <li class='divider'></li>
-                               <li><a href='./includes/logout.php'>Log Out</a></li>
-                             </ul>
-                           </li>
-                        </ul>
-                        ";
-                    }
-                ?>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+            $remove_docs_for_likes_query = "DELETE FROM likes WHERE user_id=$user_id AND post_id=$post_id";
+            $InsertLikesResult = mysqli_query($connection, $remove_docs_for_likes_query);
+            checkQueryError($InsertLikesResult);
 
+            header("Location: ./post.php?id=$post_id");
+        }
+    }
+?>
     <!-- Page Content -->
     <div class="container"> 
         <div class="row">
@@ -120,7 +77,8 @@
                     $post_content = $post['post_content'];
                     $post_image = $post['post_image'];    
                     $post_views = $post['post_views'];  
-                    
+                    $post_likes = $post['likes'];
+
                     echo "
                         <!-- Blog Post -->
 
@@ -137,8 +95,48 @@
                         <p>$post_views views</p>
                         <!-- Date/Time -->
                         <p><span class='glyphicon glyphicon-time'></span> Posted on $post_date</p>
-                        <hr>
+                        ";
+                    
+                    if (isset($_SESSION['userID'])) {
+                        $post_id = $_GET['id'];
+                        $user_id = $_SESSION['userID'];
 
+                        $Query_Isliked = "SELECT * FROM likes WHERE user_id=$user_id AND post_id=$post_id ";
+                        $Check_IsLiked_Result = mysqli_query($connection, $Query_Isliked);
+                        checkQueryError($Check_IsLiked_Result);
+                        $Count = mysqli_num_rows($Check_IsLiked_Result);
+
+                        if ($Count != 0) {
+                            echo "
+                            <div class='row'>
+                                <p class='pull-right'><a class='unlike' href='post.php?id=$post_id'><span class='glyphicon glyphicon-thumbs-up'></span>UnLike</a></p>
+                                <p class='pull-left'>Like : $post_likes</p>
+                                </div>
+                            <hr>
+                            ";
+                        } else {
+                            echo "
+                            <div class='row'>
+                                <p class='pull-right'><a class='likes' href='post.php?id=$post_id'><span class='glyphicon glyphicon-thumbs-up'></span>Like</a></p>
+                                <p class='pull-left'>Like : $post_likes</p>
+                                </div>
+                            <hr>
+                            ";
+                        }
+
+
+
+                    } else {
+                        echo "
+                            <div class='row'>
+                            <p class='pull-right'>Please <a href='login.php'> sign in </a> to like this post</p>
+                            <p class='pull-left'>Like : $post_likes</p>
+                            </div>
+                            <hr>
+                        ";
+                    }
+
+                    echo "
                         <!-- Preview Image -->
                         <img class='img-responsive' src='./admin/$post_image' alt=''>
 
@@ -269,25 +267,42 @@
 
         <hr>
 
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
-                </div>
-            </div>
-            <!-- /.row -->
-        </footer>
+<?php 
+    include('./includes/footer.php');
+?>
 
-    </div>
-    <!-- /.container -->
+<script>
+    $(document).ready(function(){
+        $('.likes').click(function(){
+            var post_id = <?php echo $_GET['id']; ?>;
+            var user_id = <?php echo $_SESSION['userID']; ?>;
+            
+            $.ajax({
+                url: "/post.php?id=<?php echo $_GET['id']; ?>",
+                type: 'post',
+                data: {
+                    'like': 1,
+                    'post_id': post_id,
+                    'user_id': user_id
+                }
+            });
+        });
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+        $('.unlike').click(function(){
+            var post_id = <?php echo $_GET['id']; ?>;
+            var user_id = <?php echo $_SESSION['userID']; ?>;
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+            $.ajax({
+                url: "/post.php?id=<?php echo $_GET['id']; ?>",
+                type: 'post',
+                data: {
+                    'unlike': 1,
+                    'post_id': post_id,
+                    'user_id': user_id
+                }
+            });
+        });
+    });
 
-</body>
 
-</html>
+</script>

@@ -19,12 +19,6 @@
                     $query = "SELECT * FROM posts WHERE post_status='public' ORDER BY post_id asc";
                     $UsedQuery = $query;
 
-                    if (isset($_POST["submit"])) {
-                        $search = $_POST['search'];
-                        $Squery = "SELECT * FROM posts WHERE post_tags LIKE '%$search%'";
-                        $UsedQuery = $Squery;
-                    }
-
                     // PAGINATION
                     if (isset($_GET['page'])) {
                         $page = $_GET['page'];
@@ -40,11 +34,10 @@
 
                     $UsedQuery = "SELECT * FROM posts WHERE post_status='public' LIMIT $page_1, 3";
                     
-                    if (isset($_SESSION['role'])) {
-                        if ($_SESSION['role'] == 'admin') {
-                            // If you are admin, you are allowed to see both public and draft posts
-                            $UsedQuery = "SELECT * FROM posts LIMIT $page_1, 3";
-                        }
+                    if (isset($_POST["submit"])) {
+                        $search = $_POST['search'];
+                        $Squery = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' AND post_status='public' LIMIT $page_1, 3";
+                        $UsedQuery = $Squery;
                     }
 
                     $postRead = mysqli_query($connection, $UsedQuery);

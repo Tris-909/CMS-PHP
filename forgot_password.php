@@ -1,5 +1,7 @@
 <?php 
     //! Code from PHPMailer Github
+    //! SMTP information is from MailTrap
+
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
@@ -50,7 +52,7 @@
                 $mail->isHTML(true);                                  // Set email format to HTML
                 $mail->Subject = 'Reset your password in CMS';
                 $mail->Body    = '<p>Please 
-                <a href="https://shrouded-springs-90128.herokuapp.com/reset.php?email='.$email.'&token='.$token.' "> click here </a>
+                <a href="http://localhost:8888/reset.php?email='.$email.'&token='.$token.' "> click here </a>
                 to reset your password</p>';
                 
                 // http://localhost:8888/ link for development mode
