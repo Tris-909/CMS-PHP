@@ -13,6 +13,7 @@
         $post_id = $_POST['post_id'];
         $user_id = $_POST['user_id'];
 
+        //! Get the likes from this post
         $Select_post_query = "SELECT * FROM posts WHERE post_id = $post_id";
         $PostResult = mysqli_query($connection, $Select_post_query);
         checkQueryError($PostResult);
@@ -21,10 +22,12 @@
             $currentlike = $post['likes'];
             $newLikeCount = $currentlike + 1;
 
+            //! Update new likes into this post
             $Update_Like_Count_Query = "UPDATE posts SET likes = $newLikeCount WHERE post_id = $post_id";
             $UpdateLikeResult = mysqli_query($connection, $Update_Like_Count_Query);
             checkQueryError($UpdateLikeResult);
 
+            //! Create a doc in likes database
             $create_docs_for_likes_query = "INSERT INTO likes (user_id, post_id) VALUES ($user_id, $post_id)";
             $InsertLikesResult = mysqli_query($connection, $create_docs_for_likes_query);
             checkQueryError($InsertLikesResult);
@@ -108,16 +111,16 @@
 
                         if ($Count != 0) {
                             echo "
-                            <div class='row'>
-                                <p class='pull-right'><a class='unlike' href='post.php?id=$post_id'><span class='glyphicon glyphicon-thumbs-up'></span>UnLike</a></p>
+                            <div>
+                                <p class='pull-right'><a class='unlike' href='post.php?id=$post_id'><span class='glyphicon glyphicon-thumbs-down'></span> UnLike</a></p>
                                 <p class='pull-left'>Like : $post_likes</p>
                                 </div>
                             <hr>
                             ";
                         } else {
                             echo "
-                            <div class='row'>
-                                <p class='pull-right'><a class='likes' href='post.php?id=$post_id'><span class='glyphicon glyphicon-thumbs-up'></span>Like</a></p>
+                            <div>
+                                <p class='pull-right'><a class='likes' href='post.php?id=$post_id'><span class='glyphicon glyphicon-thumbs-up'></span> Like</a></p>
                                 <p class='pull-left'>Like : $post_likes</p>
                                 </div>
                             <hr>
@@ -273,6 +276,7 @@
 
 <script>
     $(document).ready(function(){
+        //! trigger like function
         $('.likes').click(function(){
             var post_id = <?php echo $_GET['id']; ?>;
             var user_id = <?php echo $_SESSION['userID']; ?>;
@@ -288,6 +292,7 @@
             });
         });
 
+        //! Trigger unlike function
         $('.unlike').click(function(){
             var post_id = <?php echo $_GET['id']; ?>;
             var user_id = <?php echo $_SESSION['userID']; ?>;
