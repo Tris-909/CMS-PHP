@@ -117,9 +117,6 @@
     </div> <!-- /.container -->
 </section>
 
-
-        <hr>
-
-
+<hr>
 
 <?php include "includes/footer.php";?>

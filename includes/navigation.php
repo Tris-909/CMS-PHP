@@ -43,21 +43,26 @@
                     ?>
 
                 </ul>
-                <?php 
-                if (isLogIn()) {
-                    echo "
-                    <ul class='nav navbar-nav navbar-right'>
-                       <li class='dropdown'>
-                         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'> {$_SESSION['username']} <span class='caret'></span></a>
-                         <ul class='dropdown-menu' role='menu'>
-                           <li><a href='#'>Profile</a></li>
-                           <li><a href='postAuthor.php'>My Posts</a></li>
-                           <li class='divider'></li>
-                           <li><a href='./includes/logout.php'>Log Out</a></li>
-                         </ul>
-                       </li>
-                    </ul>
-                    ";
+                <?php
+                
+                if (isset($_SESSION['userID'])) {
+                    $user_id = $_SESSION['userID'];
+
+                    if (isLogIn()) {
+                        echo "
+                        <ul class='nav navbar-nav navbar-right'>
+                           <li class='dropdown'>
+                             <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'> {$_SESSION['username']} <span class='caret'></span></a>
+                             <ul class='dropdown-menu' role='menu'>
+                               <li><a href='profile.php?userID=$user_id'>Profile</a></li>
+                               <li><a href='postAuthor.php'>My Posts</a></li>
+                               <li class='divider'></li>
+                               <li><a href='./includes/logout.php'>Log Out</a></li>
+                             </ul>
+                           </li>
+                        </ul>
+                        ";
+                    }
                 }
                 ?>
                  
@@ -65,4 +70,4 @@
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
-    </nav>
+</nav>
